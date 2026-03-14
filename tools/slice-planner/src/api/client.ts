@@ -56,6 +56,19 @@ export async function updateFileAssignments(
   return res.json();
 }
 
+export async function bulkAssignPackage(
+  packageId: number,
+  sliceId: number,
+  confidence: number
+): Promise<{ assigned: number }> {
+  const res = await fetch(`${BASE}/packages/${packageId}/assignments`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ slice_id: sliceId, confidence }),
+  });
+  return res.json();
+}
+
 export async function fetchSlices(type?: 'vertical' | 'horizontal'): Promise<Slice[]> {
   const params = type ? `?type=${type}` : '';
   const res = await fetch(`${BASE}/slices${params}`);

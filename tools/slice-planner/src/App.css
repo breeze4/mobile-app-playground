@@ -821,3 +821,54 @@
   border-radius: 3px;
   font-size: 0.85rem;
 }
+
+
+/* Bulk assign */
+.bulk-assign-btn {
+  margin-left: auto;
+  padding: 2px 8px;
+  font-size: 11px;
+  background: #2a4a7f;
+  color: #ccc;
+  border: 1px solid #3a5a8f;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.bulk-assign-btn:hover { background: #3a5a9f; color: #fff; }
+
+.bulk-assign-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  margin: 4px 0;
+  background: #1e2d4a;
+  border: 1px solid #3a5a8f;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.bulk-assign-form select {
+  background: #16213e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  padding: 4px;
+  border-radius: 3px;
+}
+.bulk-assign-form label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #aaa;
+}
+.bulk-assign-form input[type="range"] { width: 80px; }
+.bulk-assign-form button {
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 3px;
+  border: 1px solid #444;
+  cursor: pointer;
+  background: #2a4a7f;
+  color: #ccc;
+}
+.bulk-assign-form button:hover { background: #3a5a9f; }
+.bulk-assign-form button:disabled { opacity: 0.5; cursor: not-allowed; }

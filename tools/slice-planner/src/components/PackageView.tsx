@@ -22,6 +22,7 @@ export default function PackageView() {
           onFileSelect={setSelectedFile}
           selectedFileId={selectedFile?.id ?? null}
           refreshKey={refreshKey}
+          onRefresh={handleAssignmentChanged}
         />
       </div>
       <div className="main-content">

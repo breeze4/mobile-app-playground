@@ -44,4 +44,40 @@ router.get('/:id/files', (req, res) => {
   res.json(result);
 });
 
+// PUT /api/packages/:id/assignments — bulk assign all files in a package to a slice
+router.put('/:id/assignments', (req, res) => {
+  const pkgId = req.params.id;
+  const { slice_id, confidence } = req.body as { slice_id: number; confidence: number };
+
+  if (!slice_id || confidence == null) {
+    res.status(400).json({ error: 'slice_id and confidence are required' });
+    return;
+  }
+
+  const files = db.prepare('SELECT id FROM files WHERE package_id = ?').all(pkgId) as { id: number }[];
+
+  if (files.length === 0) {
+    res.status(404).json({ error: 'No files found for this package' });
+    return;
+  }
+
+  const upsert = db.prepare(`
+    INSERT INTO file_slice_assignments (file_id, slice_id, confidence, status)
+    VALUES (?, ?, ?, 'unreviewed')
+    ON CONFLICT(file_id, slice_id) DO UPDATE SET
+      confidence = excluded.confidence,
+      status = CASE WHEN status IN ('confirmed', 'rejected') THEN status ELSE excluded.status END
+  `);
+
+  const transaction = db.transaction(() => {
+    for (const file of files) {
+      upsert.run(file.id, slice_id, confidence);
+    }
+  });
+
+  transaction();
+
+  res.json({ assigned: files.length, slice_id, confidence });
+});
+
 export default router;

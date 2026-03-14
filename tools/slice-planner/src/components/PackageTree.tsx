@@ -1,22 +1,44 @@
 import { useState, useEffect } from 'react';
-import { fetchPackages, fetchPackageFiles } from '../api/client';
-import type { Package, FileWithAssignments } from '../api/client';
+import { fetchPackages, fetchPackageFiles, fetchSlices, bulkAssignPackage } from '../api/client';
+import type { Package, FileWithAssignments, Slice } from '../api/client';
 import SliceBadge from './SliceBadge';
 
 interface PackageTreeProps {
   onFileSelect: (file: FileWithAssignments) => void;
   selectedFileId: number | null;
   refreshKey: number;
+  onRefresh?: () => void;
 }
 
-export default function PackageTree({ onFileSelect, selectedFileId, refreshKey }: PackageTreeProps) {
+export default function PackageTree({ onFileSelect, selectedFileId, refreshKey, onRefresh }: PackageTreeProps) {
   const [packages, setPackages] = useState<Package[]>([]);
   const [expandedPkgs, setExpandedPkgs] = useState<Set<number>>(new Set());
   const [pkgFiles, setPkgFiles] = useState<Record<number, FileWithAssignments[]>>({});
+  const [bulkAssignPkg, setBulkAssignPkg] = useState<number | null>(null);
+  const [slices, setSlices] = useState<Slice[]>([]);
+  const [bulkSliceId, setBulkSliceId] = useState<number | null>(null);
+  const [bulkConfidence, setBulkConfidence] = useState(0.8);
 
   useEffect(() => {
     fetchPackages().then(setPackages);
   }, [refreshKey]);
+
+  const openBulkAssign = async (e: React.MouseEvent, pkgId: number) => {
+    e.stopPropagation();
+    if (slices.length === 0) {
+      const s = await fetchSlices();
+      setSlices(s);
+    }
+    setBulkAssignPkg(pkgId);
+    setBulkSliceId(null);
+  };
+
+  const doBulkAssign = async () => {
+    if (bulkAssignPkg == null || bulkSliceId == null) return;
+    await bulkAssignPackage(bulkAssignPkg, bulkSliceId, bulkConfidence);
+    setBulkAssignPkg(null);
+    onRefresh?.();
+  };
 
   const togglePackage = async (pkg: Package) => {
     const next = new Set(expandedPkgs);
@@ -58,7 +80,38 @@ export default function PackageTree({ onFileSelect, selectedFileId, refreshKey }
             {pkg.unassigned_count > 0 && (
               <span className="unassigned-badge">{pkg.unassigned_count} unassigned</span>
             )}
+            <button
+              className="bulk-assign-btn"
+              onClick={(e) => openBulkAssign(e, pkg.id)}
+              title="Assign all files in this package to a slice"
+            >
+              Assign All
+            </button>
           </div>
+          {bulkAssignPkg === pkg.id && (
+            <div className="bulk-assign-form" onClick={(e) => e.stopPropagation()}>
+              <select
+                value={bulkSliceId ?? ''}
+                onChange={(e) => setBulkSliceId(Number(e.target.value) || null)}
+              >
+                <option value="">Select slice...</option>
+                {slices.map(s => (
+                  <option key={s.id} value={s.id}>{s.name} ({s.type})</option>
+                ))}
+              </select>
+              <label>
+                Confidence: {bulkConfidence.toFixed(1)}
+                <input
+                  type="range"
+                  min="0" max="1" step="0.1"
+                  value={bulkConfidence}
+                  onChange={(e) => setBulkConfidence(parseFloat(e.target.value))}
+                />
+              </label>
+              <button onClick={doBulkAssign} disabled={bulkSliceId == null}>Apply</button>
+              <button onClick={() => setBulkAssignPkg(null)}>Cancel</button>
+            </div>
+          )}
           {expandedPkgs.has(pkg.id) && pkgFiles[pkg.id] && (
             <div className="file-list">
               {pkgFiles[pkg.id].map(file => {
