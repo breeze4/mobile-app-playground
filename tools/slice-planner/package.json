@@ -9,7 +9,8 @@
     "dev:client": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed": "tsx server/seed.ts"
   },
   "dependencies": {
     "better-sqlite3": "^12.8.0",
