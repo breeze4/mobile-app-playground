@@ -1,0 +1,87 @@
+version: "1"
+kind: slice-mapping
+generated_at: "2026-03-13T12:00:00Z"
+slices:
+  - name: "hello-ui"
+    type: vertical
+    description: "Main activity with Compose-based hello world screen"
+  - name: "video-player"
+    type: vertical
+    description: "Video player overlay with Media3 integration"
+  - name: "map-ui"
+    type: vertical
+    description: "Base map UI with live marker rendering and interpolation"
+  - name: "build-config"
+    type: horizontal
+    description: "Gradle build configuration, wrapper, and project settings"
+  - name: "compose-foundation"
+    type: horizontal
+    description: "Jetpack Compose theming, navigation, and shared UI components"
+packages:
+  - path: "app"
+    name: "app"
+  - path: "app/src/main/java/com/playground/hello"
+    name: "com.playground.hello"
+  - path: "gradle"
+    name: "gradle"
+  - path: "."
+    name: "root"
+files:
+  - path: "app/build.gradle.kts"
+    package: "app"
+    assignments:
+      - slice: "build-config"
+        confidence: 0.95
+      - slice: "compose-foundation"
+        confidence: 0.7
+  - path: "app/src/main/AndroidManifest.xml"
+    package: "app"
+    assignments:
+      - slice: "hello-ui"
+        confidence: 0.85
+      - slice: "build-config"
+        confidence: 0.6
+  - path: "app/src/main/java/com/playground/hello/MainActivity.kt"
+    package: "app/src/main/java/com/playground/hello"
+    assignments:
+      - slice: "hello-ui"
+        confidence: 0.95
+      - slice: "compose-foundation"
+        confidence: 0.75
+  - path: "build.gradle.kts"
+    package: "."
+    assignments:
+      - slice: "build-config"
+        confidence: 0.95
+  - path: "settings.gradle.kts"
+    package: "."
+    assignments:
+      - slice: "build-config"
+        confidence: 0.95
+  - path: "gradle.properties"
+    package: "."
+    assignments:
+      - slice: "build-config"
+        confidence: 0.9
+  - path: "gradlew"
+    package: "."
+    assignments:
+      - slice: "build-config"
+        confidence: 0.9
+  - path: "gradlew.bat"
+    package: "."
+    assignments:
+      - slice: "build-config"
+        confidence: 0.9
+  - path: "gradle/wrapper/gradle-wrapper.properties"
+    package: "gradle"
+    assignments:
+      - slice: "build-config"
+        confidence: 0.9
+unassigned: []
+summary:
+  total_files: 9
+  assigned_files: 9
+  unassigned_files: 0
+  coverage_percent: 100.0
+  low_confidence_count: 1
