@@ -8,6 +8,7 @@ import packageRoutes from './routes/packages.js';
 import sliceRoutes from './routes/slices.js';
 import fileRoutes from './routes/files.js';
 import coverageRoutes from './routes/coverage.js';
+import exportRoutes from './routes/export.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api/packages', packageRoutes);
 app.use('/api/slices', sliceRoutes);
 app.use('/api/files', fileRoutes);
 app.use('/api/coverage', coverageRoutes);
+app.use('/api/export', exportRoutes);
 
 // In production, serve the Vite build
 const distPath = path.join(__dirname, '..', 'dist');
