@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "mobile_app_playground",
+  "project_id": "3ec3dcea-90ba-431d-98bb-95fd86d32b39"
+}
