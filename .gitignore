@@ -1,4 +1,31 @@
+# Gradle
+.gradle/
+build/
+local.properties
 
-# Dolt database files (added by bd init)
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Android
+app/build/
+*.apk
+*.aab
+
+# Dolt (added by bd init)
 .dolt/
 *.db
+dolt-server.*
+dolt/
+
+# Node (for tools)
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Ralph
+.ralph/logs/

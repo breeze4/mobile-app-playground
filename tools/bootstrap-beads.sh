@@ -76,6 +76,9 @@ echo "Bootstrap: $BOOTSTRAP"
 
 # Track the last bead in the previous plan for cross-plan deps
 PREV_PLAN_LAST=""
+# Track the last task/gate of the previous phase for direct first-task deps
+# (epic deps alone don't block in beads, so first task needs a direct dep)
+PREV_PHASE_LAST=""
 
 # ============================================================
 # PLAN 1: SLICE PLANNER TOOL
@@ -95,6 +98,7 @@ SP_P0_EPIC=$(create_bead "SP: Phase 0 - Agent Skills for Initial Mapping" "Creat
 add_dep "$SP_P0_EPIC" "$SP_EPIC"
 
 PREV=""
+PREV_PHASE_LAST="$BOOTSTRAP"
 for item in \
   "Define YAML output schema shared across all three skills (package inventory, slice catalog, file-to-slice mapping)" \
   "Create slice-inventory skill - instructions for identifying all packages/modules and producing the inventory YAML" \
@@ -105,6 +109,9 @@ for item in \
   "Verify: run slice-map with sample slice catalog + inventory, confirm output matches the import schema for the Slice Planner UI"; do
   ID=$(create_bead "SP P0: $item" "$item" "task" "2")
   add_dep "$ID" "$SP_P0_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -116,6 +123,7 @@ SP_P1_EPIC=$(create_bead "SP: Phase 1 - Project Scaffold and Database" "Initiali
 add_dep "$SP_P1_EPIC" "$SP_P0_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$SP_P0_LAST"
 for item in \
   "Initialize Vite + React + TypeScript project in tools/slice-planner/" \
   "Add Express backend with SQLite (better-sqlite3)" \
@@ -124,6 +132,9 @@ for item in \
   "Verify: run seed against app/ dir, confirm files indexed in SQLite"; do
   ID=$(create_bead "SP P1: $item" "$item" "task" "2")
   add_dep "$ID" "$SP_P1_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -135,6 +146,7 @@ SP_P2_EPIC=$(create_bead "SP: Phase 2 - Import Pipeline" "Build the import syste
 add_dep "$SP_P2_EPIC" "$SP_P1_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$SP_P1_LAST"
 for item in \
   "Define JSON/YAML import schema for agent-generated mappings" \
   "Build import endpoint that creates slices and file assignments from import file" \
@@ -142,6 +154,9 @@ for item in \
   "Verify: create a sample import file, run import, query DB to confirm data"; do
   ID=$(create_bead "SP P2: $item" "$item" "task" "2")
   add_dep "$ID" "$SP_P2_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -153,6 +168,7 @@ SP_P3_EPIC=$(create_bead "SP: Phase 3 - Package View" "Build the package-centric
 add_dep "$SP_P3_EPIC" "$SP_P2_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$SP_P2_LAST"
 for item in \
   "API endpoints: list packages, list files per package, get assignments per file" \
   "Package tree component with expandable file lists" \
@@ -162,6 +178,9 @@ for item in \
   "Verify: navigate package view, assign a file to a slice, confirm DB updated"; do
   ID=$(create_bead "SP P3: $item" "$item" "task" "2")
   add_dep "$ID" "$SP_P3_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -178,6 +197,7 @@ SP_P4_EPIC=$(create_bead "SP: Phase 4 - Slice View" "Build the slice-centric vie
 add_dep "$SP_P4_EPIC" "$SP_P3_GATE"
 
 PREV=""
+PREV_PHASE_LAST="$SP_P3_GATE"
 for item in \
   "API endpoints: list slices (filter by type), list files per slice grouped by package" \
   "Slice list component with type filter (vertical/horizontal/all)" \
@@ -186,6 +206,9 @@ for item in \
   "Verify: create a slice, add files, view them grouped correctly"; do
   ID=$(create_bead "SP P4: $item" "$item" "task" "2")
   add_dep "$ID" "$SP_P4_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -202,6 +225,7 @@ SP_P5_EPIC=$(create_bead "SP: Phase 5 - Coverage Dashboard" "Build the coverage 
 add_dep "$SP_P5_EPIC" "$SP_P4_GATE"
 
 PREV=""
+PREV_PHASE_LAST="$SP_P4_GATE"
 for item in \
   "API endpoint: coverage stats (total, assigned, unassigned, percentage)" \
   "Dashboard component showing coverage bar and stats" \
@@ -211,6 +235,9 @@ for item in \
   "Verify: import partial data, confirm dashboard shows correct uncovered count"; do
   ID=$(create_bead "SP P5: $item" "$item" "task" "2")
   add_dep "$ID" "$SP_P5_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -227,6 +254,7 @@ SP_P6_EPIC=$(create_bead "SP: Phase 6 - Export" "Build YAML export of confirmed 
 add_dep "$SP_P6_EPIC" "$SP_P5_GATE"
 
 PREV=""
+PREV_PHASE_LAST="$SP_P5_GATE"
 for item in \
   "Export endpoint that generates YAML from confirmed assignments" \
   "Include coverage summary and flag any remaining unassigned files" \
@@ -234,6 +262,9 @@ for item in \
   "Verify: confirm exported YAML round-trips (re-import produces same state)"; do
   ID=$(create_bead "SP P6: $item" "$item" "task" "2")
   add_dep "$ID" "$SP_P6_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -250,6 +281,7 @@ SP_P7_EPIC=$(create_bead "SP: Phase 7 - Polish and Portability" "Final polish: s
 add_dep "$SP_P7_EPIC" "$SP_P6_GATE"
 
 PREV=""
+PREV_PHASE_LAST="$SP_P6_GATE"
 for item in \
   "Single npm run dev starts both frontend and backend" \
   "README with usage instructions (scan, import, review, export)" \
@@ -257,6 +289,9 @@ for item in \
   "Test portability: point at a different directory structure, verify it indexes correctly"; do
   ID=$(create_bead "SP P7: $item" "$item" "task" "2")
   add_dep "$ID" "$SP_P7_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -281,6 +316,7 @@ BS_P1_EPIC=$(create_bead "BS: Phase 1 - Formula Creation" "Create the mol-slice-
 add_dep "$BS_P1_EPIC" "$BS_EPIC"
 
 PREV=""
+PREV_PHASE_LAST="$PREV_PLAN_LAST"
 for item in \
   "Create .beads/formulas/ directory" \
   "Write mol-slice-pipeline.formula.json with 8 steps, variables, and sequential deps" \
@@ -290,6 +326,9 @@ for item in \
   "Verify: pour one real molecule, confirm 8 child beads with correct sequential deps"; do
   ID=$(create_bead "BS P1: $item" "$item" "task" "2")
   add_dep "$ID" "$BS_P1_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -301,6 +340,7 @@ BS_P2_EPIC=$(create_bead "BS: Phase 2 - Scaffolding Script" "Script that parses 
 add_dep "$BS_P2_EPIC" "$BS_P1_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$BS_P1_LAST"
 for item in \
   "Script that parses slice YAML and pours one molecule per slice" \
   "Capture and store bead ID mapping (slice/step to bead ID)" \
@@ -310,6 +350,9 @@ for item in \
   "Verify: run against sample YAML with 3-4 slices and a simple DAG, confirm structure via bd graph"; do
   ID=$(create_bead "BS P2: $item" "$item" "task" "2")
   add_dep "$ID" "$BS_P2_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -321,6 +364,7 @@ BS_P3_EPIC=$(create_bead "BS: Phase 3 - Idempotency" "Handle re-runs without cre
 add_dep "$BS_P3_EPIC" "$BS_P2_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$BS_P2_LAST"
 for item in \
   "Detect already-poured slices (check for existing molecules by name/label)" \
   "Skip already-created molecules, only pour missing ones" \
@@ -328,6 +372,9 @@ for item in \
   "Verify: run twice, confirm no duplicates"; do
   ID=$(create_bead "BS P3: $item" "$item" "task" "2")
   add_dep "$ID" "$BS_P3_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -339,12 +386,16 @@ BS_P4_EPIC=$(create_bead "BS: Phase 4 - Swarm Setup" "Create top-level epic and 
 add_dep "$BS_P4_EPIC" "$BS_P3_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$BS_P3_LAST"
 for item in \
   "Create top-level epic that parents all slice molecules" \
   "Create swarm from that epic for coordinated execution" \
   "Verify: bd swarm status shows correct structure"; do
   ID=$(create_bead "BS P4: $item" "$item" "task" "2")
   add_dep "$ID" "$BS_P4_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -356,6 +407,7 @@ BS_P5_EPIC=$(create_bead "BS: Phase 5 - Summary and Validation" "Summary output 
 add_dep "$BS_P5_EPIC" "$BS_P4_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$BS_P4_LAST"
 for item in \
   "Print creation summary: slices poured, beads total, deps added" \
   "Print critical path through the DAG" \
@@ -364,6 +416,9 @@ for item in \
   "Verify: summary matches bd stats"; do
   ID=$(create_bead "BS P5: $item" "$item" "task" "2")
   add_dep "$ID" "$BS_P5_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -388,6 +443,7 @@ E2E_P1_EPIC=$(create_bead "E2E: Phase 1 - Maestro Setup" "Install and validate M
 add_dep "$E2E_P1_EPIC" "$E2E_EPIC"
 
 PREV=""
+PREV_PHASE_LAST="$PREV_PLAN_LAST"
 for item in \
   "Install Maestro CLI, verify it runs on the playground Android app via emulator" \
   "Create e2e/ directory structure (flows, config, output)" \
@@ -395,6 +451,9 @@ for item in \
   "Verify: maestro test and maestro record both work, artifacts land in output dir"; do
   ID=$(create_bead "E2E P1: $item" "$item" "task" "2")
   add_dep "$ID" "$E2E_P1_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -406,6 +465,7 @@ E2E_P2_EPIC=$(create_bead "E2E: Phase 2 - Test Skills" "Create the three test-re
 add_dep "$E2E_P2_EPIC" "$E2E_P1_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$E2E_P1_LAST"
 for item in \
   "Create test-design skill with instructions for producing GWT YAML from slice context" \
   "Create test-implement skill with Maestro YAML generation instructions and conventions" \
@@ -413,6 +473,9 @@ for item in \
   "Verify: run all three skills manually on one slice of the playground app"; do
   ID=$(create_bead "E2E P2: $item" "$item" "task" "2")
   add_dep "$ID" "$E2E_P2_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -424,12 +487,16 @@ E2E_P3_EPIC=$(create_bead "E2E: Phase 3 - Parity Comparison Workflow" "Script th
 add_dep "$E2E_P3_EPIC" "$E2E_P2_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$E2E_P2_LAST"
 for item in \
   "Script that runs the same Maestro flow suite against two different APP_IDs" \
   "Diff report: which flows pass on old app vs new app, side-by-side" \
   "Verify: intentionally break a feature in the new app, confirm diff report catches it"; do
   ID=$(create_bead "E2E P3: $item" "$item" "task" "2")
   add_dep "$ID" "$E2E_P3_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -441,6 +508,7 @@ E2E_P4_EPIC=$(create_bead "E2E: Phase 4 - Model Experiment" "Run controlled expe
 add_dep "$E2E_P4_EPIC" "$E2E_P3_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$E2E_P3_LAST"
 for item in \
   "Pick 2 slices (1 vertical, 1 horizontal) from the playground app" \
   "Run experiment matrix (Claude vs Codex swapped across test/code steps)" \
@@ -448,6 +516,9 @@ for item in \
   "Update bead scaffolder to tag beads with assigned model/agent type"; do
   ID=$(create_bead "E2E P4: $item" "$item" "task" "2")
   add_dep "$ID" "$E2E_P4_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -459,6 +530,7 @@ E2E_P5_EPIC=$(create_bead "E2E: Phase 5 - Integration with Bead Pipeline" "Conne
 add_dep "$E2E_P5_EPIC" "$E2E_P4_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$E2E_P4_LAST"
 for item in \
   "Update bead scaffolder to create 8 steps instead of 6" \
   "Test artifacts (videos, screenshots, results) stored in standard location per slice" \
@@ -466,6 +538,9 @@ for item in \
   "Verify: full pipeline run on one playground slice, all 8 beads created and closeable"; do
   ID=$(create_bead "E2E P5: $item" "$item" "task" "2")
   add_dep "$ID" "$E2E_P5_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -490,6 +565,7 @@ RPT_P1_EPIC=$(create_bead "RPT: Phase 1 - Report Data Model and API" "Define rep
 add_dep "$RPT_P1_EPIC" "$RPT_EPIC"
 
 PREV=""
+PREV_PHASE_LAST="$PREV_PLAN_LAST"
 for item in \
   "Define report.json schema (slice metadata, test cases, results, artifact paths, step timings)" \
   "Add API endpoints to Slice Planner backend: list reports, get report for slice" \
@@ -497,6 +573,9 @@ for item in \
   "Verify: create a sample report.json manually, confirm API returns it"; do
   ID=$(create_bead "RPT P1: $item" "$item" "task" "2")
   add_dep "$ID" "$RPT_P1_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -508,6 +587,7 @@ RPT_P2_EPIC=$(create_bead "RPT: Phase 2 - Reports List View" "Build the reports 
 add_dep "$RPT_P2_EPIC" "$RPT_P1_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$RPT_P1_LAST"
 for item in \
   "Add Reports nav item to Slice Planner app" \
   "Slice list with report status (complete, pending, no report)" \
@@ -515,6 +595,9 @@ for item in \
   "Verify: navigate to reports view, see slice list with correct statuses"; do
   ID=$(create_bead "RPT P2: $item" "$item" "task" "2")
   add_dep "$ID" "$RPT_P2_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -531,6 +614,7 @@ RPT_P3_EPIC=$(create_bead "RPT: Phase 3 - Slice Report Page" "Build the individu
 add_dep "$RPT_P3_EPIC" "$RPT_P2_GATE"
 
 PREV=""
+PREV_PHASE_LAST="$RPT_P2_GATE"
 for item in \
   "Header with slice metadata" \
   "File list section" \
@@ -539,6 +623,9 @@ for item in \
   "Verify: render a complete report page from sample data"; do
   ID=$(create_bead "RPT P3: $item" "$item" "task" "2")
   add_dep "$ID" "$RPT_P3_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -555,6 +642,7 @@ RPT_P4_EPIC=$(create_bead "RPT: Phase 4 - Video Player with Interactive Trace" "
 add_dep "$RPT_P4_EPIC" "$RPT_P3_GATE"
 
 PREV=""
+PREV_PHASE_LAST="$RPT_P3_GATE"
 for item in \
   "Embedded HTML5 video player component" \
   "Parse Maestro results JSON for step names and timestamps" \
@@ -564,6 +652,9 @@ for item in \
   "Verify: play a recorded Maestro test, click through steps, confirm seeking works"; do
   ID=$(create_bead "RPT P4: $item" "$item" "task" "2")
   add_dep "$ID" "$RPT_P4_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -580,6 +671,7 @@ RPT_P5_EPIC=$(create_bead "RPT: Phase 5 - Screenshots Gallery" "Build screenshot
 add_dep "$RPT_P5_EPIC" "$RPT_P4_GATE"
 
 PREV=""
+PREV_PHASE_LAST="$RPT_P4_GATE"
 for item in \
   "Grid/list of screenshots per flow, labeled by step" \
   "Click to expand full-size" \
@@ -587,6 +679,9 @@ for item in \
   "Verify: view screenshots from a test run, compare old vs new"; do
   ID=$(create_bead "RPT P5: $item" "$item" "task" "2")
   add_dep "$ID" "$RPT_P5_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -603,6 +698,7 @@ RPT_P6_EPIC=$(create_bead "RPT: Phase 6 - Report Generation Skill" "Create the s
 add_dep "$RPT_P6_EPIC" "$RPT_P5_GATE"
 
 PREV=""
+PREV_PHASE_LAST="$RPT_P5_GATE"
 for item in \
   "Create slice-report skill for the report bead step" \
   "Skill collects artifacts from test-verify and verify output dirs" \
@@ -611,6 +707,9 @@ for item in \
   "Verify: run skill on a completed slice, confirm report renders in the app"; do
   ID=$(create_bead "RPT P6: $item" "$item" "task" "2")
   add_dep "$ID" "$RPT_P6_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -635,6 +734,7 @@ LB_P1_EPIC=$(create_bead "LB: Phase 1 - Inner Loop Script" "Build ralph-once.sh 
 add_dep "$LB_P1_EPIC" "$LB_EPIC"
 
 PREV=""
+PREV_PHASE_LAST="$PREV_PLAN_LAST"
 for item in \
   "ralph-once.sh - queries bd ready, filters by slices and pool" \
   "Picks first matching bead, marks in_progress" \
@@ -645,6 +745,9 @@ for item in \
   "Verify: run once against a test molecule with a trivial bead, confirm it picks up, works, and closes"; do
   ID=$(create_bead "LB P1: $item" "$item" "task" "2")
   add_dep "$ID" "$LB_P1_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -656,6 +759,7 @@ LB_P2_EPIC=$(create_bead "LB: Phase 2 - Outer Loop Script" "Build ralph.sh with 
 add_dep "$LB_P2_EPIC" "$LB_P1_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$LB_P1_LAST"
 for item in \
   "ralph.sh - accepts --slices, --pool, --iterations args" \
   "Runs inner loop in a for loop with early exit on RALPH_DONE" \
@@ -663,6 +767,9 @@ for item in \
   "Verify: run with 3 iterations against a molecule with 2 ready beads, confirm it does 2 and exits"; do
   ID=$(create_bead "LB P2: $item" "$item" "task" "2")
   add_dep "$ID" "$LB_P2_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -674,6 +781,7 @@ LB_P3_EPIC=$(create_bead "LB: Phase 3 - Multi-Model Support" "Pool-to-model mapp
 add_dep "$LB_P3_EPIC" "$LB_P2_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$LB_P2_LAST"
 for item in \
   "--model flag to select claude vs gemini (or specific model)" \
   "Pool-to-model mapping config file (.ralph/models.yaml)" \
@@ -681,6 +789,9 @@ for item in \
   "Verify: run with different pools, confirm correct model is invoked"; do
   ID=$(create_bead "LB P3: $item" "$item" "task" "2")
   add_dep "$ID" "$LB_P3_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -692,6 +803,7 @@ LB_P4_EPIC=$(create_bead "LB: Phase 4 - Rich Bead Descriptions" "Ensure formula 
 add_dep "$LB_P4_EPIC" "$LB_P3_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$LB_P3_LAST"
 for item in \
   "Update mol-slice-pipeline formula to include detailed description templates per step" \
   "Description templates reference slice variables (name, files, type)" \
@@ -699,6 +811,9 @@ for item in \
   "Verify: pour a molecule, read bead descriptions, confirm they contain actionable instructions"; do
   ID=$(create_bead "LB P4: $item" "$item" "task" "2")
   add_dep "$ID" "$LB_P4_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
@@ -710,6 +825,7 @@ LB_P5_EPIC=$(create_bead "LB: Phase 5 - Safety and Observability" "Guardrails an
 add_dep "$LB_P5_EPIC" "$LB_P4_LAST"
 
 PREV=""
+PREV_PHASE_LAST="$LB_P4_LAST"
 for item in \
   "Max consecutive failures before stopping (avoid burning tokens on a stuck bead)" \
   "Bead-level time limit (kill inner loop if it runs too long on one bead)" \
@@ -718,6 +834,9 @@ for item in \
   "Verify: simulate a failure, confirm loop handles it and continues to next bead"; do
   ID=$(create_bead "LB P5: $item" "$item" "task" "2")
   add_dep "$ID" "$LB_P5_EPIC"
+  if [[ -z "$PREV" && -n "$PREV_PHASE_LAST" ]]; then
+    add_dep "$ID" "$PREV_PHASE_LAST"
+  fi
   [[ -n "$PREV" ]] && add_dep "$ID" "$PREV"
   PREV="$ID"
 done
