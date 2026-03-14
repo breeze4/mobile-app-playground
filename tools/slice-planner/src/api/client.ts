@@ -56,7 +56,80 @@ export async function updateFileAssignments(
   return res.json();
 }
 
-export async function fetchSlices(): Promise<Slice[]> {
-  const res = await fetch(`${BASE}/slices`);
+export async function fetchSlices(type?: 'vertical' | 'horizontal'): Promise<Slice[]> {
+  const params = type ? `?type=${type}` : '';
+  const res = await fetch(`${BASE}/slices${params}`);
+  return res.json();
+}
+
+export interface SliceFileEntry {
+  id: number;
+  path: string;
+  confidence: number;
+  status: string;
+}
+
+export interface SlicePackageGroup {
+  id: number;
+  path: string;
+  name: string;
+  files: SliceFileEntry[];
+}
+
+export interface SliceFilesResponse {
+  slice: Slice;
+  packages: SlicePackageGroup[];
+}
+
+export async function fetchSliceFiles(sliceId: number): Promise<SliceFilesResponse> {
+  const res = await fetch(`${BASE}/slices/${sliceId}/files`);
+  return res.json();
+}
+
+export async function deleteFileAssignment(fileId: number, sliceId: number): Promise<void> {
+  await fetch(`${BASE}/files/${fileId}/assignments/${sliceId}`, { method: 'DELETE' });
+}
+
+export interface CoverageStats {
+  total_files: number;
+  assigned_files: number;
+  unassigned_files: number;
+  coverage_percent: number;
+  low_confidence_count: number;
+  low_confidence_threshold: number;
+}
+
+export async function fetchCoverage(): Promise<CoverageStats> {
+  const res = await fetch(`${BASE}/coverage`);
+  return res.json();
+}
+
+export interface UnassignedFile {
+  id: number;
+  path: string;
+  package_path: string;
+  package_name: string;
+}
+
+export async function fetchUnassignedFiles(): Promise<UnassignedFile[]> {
+  const res = await fetch(`${BASE}/files/unassigned`);
+  return res.json();
+}
+
+export interface LowConfidenceEntry {
+  file_id: number;
+  file_path: string;
+  slice_id: number;
+  slice_name: string;
+  slice_type: string;
+  confidence: number;
+  status: string;
+  package_path: string;
+  package_name: string;
+}
+
+export async function fetchLowConfidenceFiles(threshold?: number): Promise<LowConfidenceEntry[]> {
+  const params = threshold ? `?threshold=${threshold}` : '';
+  const res = await fetch(`${BASE}/files/low-confidence${params}`);
   return res.json();
 }
