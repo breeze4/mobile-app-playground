@@ -1,0 +1,276 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:2:1-19:12
+INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:2:1-19:12
+INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:2:1-19:12
+INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:2:1-19:12
+MERGED from [androidx.compose.material3:material3-android:1.3.1] /home/breeze/.gradle/caches/8.11.1/transforms/cf05307a085e8621a5cc79f894dd9f06/transformed/material3-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.material:material-ripple-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/c12c084cb248d3c74fde2e2e63fc5d7a/transformed/material-ripple-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/b00fe845a301b8c4374fae327b6fdf8e/transformed/foundation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/975f6fbc25dc2b0eb69c287deceaedfc/transformed/animation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/76a95181b54561f0d2b9213db6e4c70f/transformed/foundation-layout-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/a856b650c60c4ac54de3bb59240be6e0/transformed/animation-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-core-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/6fd1395442b5148e90cb158b8322f64e/transformed/material-icons-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-unit-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/66856dfc20a86fb4b63b2f6e097c728e/transformed/ui-unit-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-graphics-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/c612a00896cecb34db86d5dd62020b14/transformed/ui-graphics-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-geometry-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/bde9189d6fc5346e803bd33321eab4a5/transformed/ui-geometry-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-util-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/14455028f783c9f11010a2b5993cef31/transformed/ui-util-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-text-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/1da67dced64d2f79c418557e60bd0882/transformed/ui-text-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/800ebcebacb550e898324c2cabd307e9/transformed/ui-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/5af5d209307eb4d6f3cd16968fcee634/transformed/activity-1.10.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity-ktx:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/04fd3e174a3fed949cedfa8f3048f755/transformed/activity-ktx-1.10.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity-compose:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/214ff3754e0fbf05d811cc125bb8a7bc/transformed/activity-compose-1.10.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /home/breeze/.gradle/caches/8.11.1/transforms/024177a14bc9c8a1cd4fb03e3881365e/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.autofill:autofill:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/7e7b38286fcb8164d9b2b0d4f150ff22/transformed/autofill-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.graphics:graphics-path:1.0.1] /home/breeze/.gradle/caches/8.11.1/transforms/eec50773eb90f0c8e5e7ab2a13a0e600/transformed/graphics-path-1.0.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/823eea9411a36e2379abab8213474074/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/b3095b67988180537edf89444c26dd2f/transformed/core-ktx-1.13.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/b506af98145f28359ef4112f9956aed4/transformed/lifecycle-livedata-core-2.8.3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/6e2fce14bb70f8674b79a766a24d698f/transformed/lifecycle-viewmodel-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/de74099dcc581aba3cb4700e53e50d9d/transformed/lifecycle-runtime-ktx-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/d40f53975bc73c261d4713a88e2089d1/transformed/lifecycle-runtime-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/0172cdeeb78eb58deb2457a587006e74/transformed/lifecycle-viewmodel-ktx-2.8.3/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/a905b7c6917e5cfc624ac5928cfd3193/transformed/lifecycle-runtime-compose-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/c8331bb70a6db2bb94c994e5ab64093b/transformed/lifecycle-viewmodel-savedstate-2.8.3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/breeze/.gradle/caches/8.11.1/transforms/c905b92851d6424c7eaa2df0edd63e2f/transformed/savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.runtime:runtime-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/d4db8e05546e43dfcde88331ccbf30f6/transformed/runtime-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/ce06e2c03819d82e737b6d89a87547af/transformed/runtime-saveable-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/ba467541a94001cfd0e713caef23278e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/220a38a86904622eecd624e47eb5b9c6/transformed/tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/breeze/.gradle/caches/8.11.1/transforms/618904dd1c2d90e5ff26b977761944b3/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/175350c33fab30152a5775fa033274e0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/aa63002887e039392601351566278194/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /home/breeze/.gradle/caches/8.11.1/transforms/b79232602067db608d4cc2deb1354a9d/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:2:1-7:12
+	package
+		INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:2:11-69
+application
+ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:4:5-17:19
+INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:4:5-17:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/ba467541a94001cfd0e713caef23278e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/ba467541a94001cfd0e713caef23278e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/175350c33fab30152a5775fa033274e0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/175350c33fab30152a5775fa033274e0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+	android:extractNativeLibs
+		INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+	android:label
+		ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:6:9-41
+	android:allowBackup
+		ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:5:9-35
+	android:theme
+		ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:7:9-66
+activity#com.playground.hello.MainActivity
+ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:9:9-16:20
+	android:exported
+		ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:11:13-36
+	android:name
+		ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:10:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:12:13-15:29
+action#android.intent.action.MAIN
+ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:13:17-69
+	android:name
+		ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:13:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:14:17-77
+	android:name
+		ADDED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml:14:27-74
+uses-sdk
+INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml
+INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml
+MERGED from [androidx.compose.material3:material3-android:1.3.1] /home/breeze/.gradle/caches/8.11.1/transforms/cf05307a085e8621a5cc79f894dd9f06/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material3:material3-android:1.3.1] /home/breeze/.gradle/caches/8.11.1/transforms/cf05307a085e8621a5cc79f894dd9f06/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/c12c084cb248d3c74fde2e2e63fc5d7a/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/c12c084cb248d3c74fde2e2e63fc5d7a/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/b00fe845a301b8c4374fae327b6fdf8e/transformed/foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/b00fe845a301b8c4374fae327b6fdf8e/transformed/foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/975f6fbc25dc2b0eb69c287deceaedfc/transformed/animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/975f6fbc25dc2b0eb69c287deceaedfc/transformed/animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/76a95181b54561f0d2b9213db6e4c70f/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/76a95181b54561f0d2b9213db6e4c70f/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/a856b650c60c4ac54de3bb59240be6e0/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/a856b650c60c4ac54de3bb59240be6e0/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/6fd1395442b5148e90cb158b8322f64e/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/6fd1395442b5148e90cb158b8322f64e/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/66856dfc20a86fb4b63b2f6e097c728e/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/66856dfc20a86fb4b63b2f6e097c728e/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/c612a00896cecb34db86d5dd62020b14/transformed/ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/c612a00896cecb34db86d5dd62020b14/transformed/ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/bde9189d6fc5346e803bd33321eab4a5/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/bde9189d6fc5346e803bd33321eab4a5/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/14455028f783c9f11010a2b5993cef31/transformed/ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/14455028f783c9f11010a2b5993cef31/transformed/ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/1da67dced64d2f79c418557e60bd0882/transformed/ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/1da67dced64d2f79c418557e60bd0882/transformed/ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/800ebcebacb550e898324c2cabd307e9/transformed/ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/800ebcebacb550e898324c2cabd307e9/transformed/ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/5af5d209307eb4d6f3cd16968fcee634/transformed/activity-1.10.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/5af5d209307eb4d6f3cd16968fcee634/transformed/activity-1.10.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-ktx:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/04fd3e174a3fed949cedfa8f3048f755/transformed/activity-ktx-1.10.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/04fd3e174a3fed949cedfa8f3048f755/transformed/activity-ktx-1.10.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-compose:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/214ff3754e0fbf05d811cc125bb8a7bc/transformed/activity-compose-1.10.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-compose:1.10.0] /home/breeze/.gradle/caches/8.11.1/transforms/214ff3754e0fbf05d811cc125bb8a7bc/transformed/activity-compose-1.10.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /home/breeze/.gradle/caches/8.11.1/transforms/024177a14bc9c8a1cd4fb03e3881365e/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /home/breeze/.gradle/caches/8.11.1/transforms/024177a14bc9c8a1cd4fb03e3881365e/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.autofill:autofill:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/7e7b38286fcb8164d9b2b0d4f150ff22/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/7e7b38286fcb8164d9b2b0d4f150ff22/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.graphics:graphics-path:1.0.1] /home/breeze/.gradle/caches/8.11.1/transforms/eec50773eb90f0c8e5e7ab2a13a0e600/transformed/graphics-path-1.0.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.graphics:graphics-path:1.0.1] /home/breeze/.gradle/caches/8.11.1/transforms/eec50773eb90f0c8e5e7ab2a13a0e600/transformed/graphics-path-1.0.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/823eea9411a36e2379abab8213474074/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/823eea9411a36e2379abab8213474074/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/b3095b67988180537edf89444c26dd2f/transformed/core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/b3095b67988180537edf89444c26dd2f/transformed/core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/b506af98145f28359ef4112f9956aed4/transformed/lifecycle-livedata-core-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/b506af98145f28359ef4112f9956aed4/transformed/lifecycle-livedata-core-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/6e2fce14bb70f8674b79a766a24d698f/transformed/lifecycle-viewmodel-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/6e2fce14bb70f8674b79a766a24d698f/transformed/lifecycle-viewmodel-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/de74099dcc581aba3cb4700e53e50d9d/transformed/lifecycle-runtime-ktx-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/de74099dcc581aba3cb4700e53e50d9d/transformed/lifecycle-runtime-ktx-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/d40f53975bc73c261d4713a88e2089d1/transformed/lifecycle-runtime-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/d40f53975bc73c261d4713a88e2089d1/transformed/lifecycle-runtime-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/0172cdeeb78eb58deb2457a587006e74/transformed/lifecycle-viewmodel-ktx-2.8.3/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/0172cdeeb78eb58deb2457a587006e74/transformed/lifecycle-viewmodel-ktx-2.8.3/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/a905b7c6917e5cfc624ac5928cfd3193/transformed/lifecycle-runtime-compose-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/a905b7c6917e5cfc624ac5928cfd3193/transformed/lifecycle-runtime-compose-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/c8331bb70a6db2bb94c994e5ab64093b/transformed/lifecycle-viewmodel-savedstate-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/c8331bb70a6db2bb94c994e5ab64093b/transformed/lifecycle-viewmodel-savedstate-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/breeze/.gradle/caches/8.11.1/transforms/c905b92851d6424c7eaa2df0edd63e2f/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/breeze/.gradle/caches/8.11.1/transforms/c905b92851d6424c7eaa2df0edd63e2f/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/d4db8e05546e43dfcde88331ccbf30f6/transformed/runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/d4db8e05546e43dfcde88331ccbf30f6/transformed/runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/ce06e2c03819d82e737b6d89a87547af/transformed/runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.7] /home/breeze/.gradle/caches/8.11.1/transforms/ce06e2c03819d82e737b6d89a87547af/transformed/runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/ba467541a94001cfd0e713caef23278e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/ba467541a94001cfd0e713caef23278e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/220a38a86904622eecd624e47eb5b9c6/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/220a38a86904622eecd624e47eb5b9c6/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/breeze/.gradle/caches/8.11.1/transforms/618904dd1c2d90e5ff26b977761944b3/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/breeze/.gradle/caches/8.11.1/transforms/618904dd1c2d90e5ff26b977761944b3/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/175350c33fab30152a5775fa033274e0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/175350c33fab30152a5775fa033274e0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/aa63002887e039392601351566278194/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/breeze/.gradle/caches/8.11.1/transforms/aa63002887e039392601351566278194/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /home/breeze/.gradle/caches/8.11.1/transforms/b79232602067db608d4cc2deb1354a9d/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /home/breeze/.gradle/caches/8.11.1/transforms/b79232602067db608d4cc2deb1354a9d/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+	android:targetSdkVersion
+		INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/breeze/dev/mobile-app-playground/app/src/main/AndroidManifest.xml
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/ba467541a94001cfd0e713caef23278e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/breeze/.gradle/caches/8.11.1/transforms/ba467541a94001cfd0e713caef23278e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/breeze/.gradle/caches/8.11.1/transforms/5b8708c1006fe151a73ccf6e9625667c/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+permission#com.playground.hello.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+uses-permission#com.playground.hello.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /home/breeze/.gradle/caches/8.11.1/transforms/9b9242e349b4666090c73eea30b3079c/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.8.3] /home/breeze/.gradle/caches/8.11.1/transforms/bf311abbc3dd415c3d672e07cf2d54f3/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:30:17-78
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/breeze/.gradle/caches/8.11.1/transforms/b55b5e436f91645570c51c0db2811a8f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
