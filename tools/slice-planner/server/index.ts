@@ -4,6 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import db from './db.js';
 import importRoutes from './routes/import.js';
+import packageRoutes from './routes/packages.js';
+import sliceRoutes from './routes/slices.js';
+import fileRoutes from './routes/files.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -20,6 +23,9 @@ app.get('/api/health', (_req, res) => {
 
 // API routes
 app.use('/api/import', importRoutes);
+app.use('/api/packages', packageRoutes);
+app.use('/api/slices', sliceRoutes);
+app.use('/api/files', fileRoutes);
 
 // In production, serve the Vite build
 const distPath = path.join(__dirname, '..', 'dist');
