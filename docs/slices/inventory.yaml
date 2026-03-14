@@ -1,0 +1,33 @@
+version: "1"
+kind: package-inventory
+project_root: "."
+generated_at: "2026-03-13T12:00:00Z"
+packages:
+  - path: "app"
+    name: "app"
+    description: "Android application module with Compose UI"
+    files:
+      - path: "app/build.gradle.kts"
+      - path: "app/src/main/AndroidManifest.xml"
+  - path: "app/src/main/java/com/playground/hello"
+    name: "com.playground.hello"
+    description: "Main activity package with Compose-based hello world screen"
+    files:
+      - path: "app/src/main/java/com/playground/hello/MainActivity.kt"
+  - path: "gradle"
+    name: "gradle"
+    description: "Gradle wrapper configuration"
+    files:
+      - path: "gradle/wrapper/gradle-wrapper.properties"
+  - path: "."
+    name: "root"
+    description: "Project root with build configuration and settings"
+    files:
+      - path: "build.gradle.kts"
+      - path: "settings.gradle.kts"
+      - path: "gradle.properties"
+      - path: "gradlew"
+      - path: "gradlew.bat"
+summary:
+  total_packages: 4
+  total_files: 9
