@@ -691,6 +691,56 @@
   font-size: 0.8rem;
 }
 
+.assign-btn {
+  background: #1e40af;
+  color: #fff;
+  border: none;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.assign-btn:hover {
+  background: #2563eb;
+}
+
+.inline-assign {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.inline-assign select {
+  background: #1f2b47;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.inline-assign button {
+  background: #1e40af;
+  color: #fff;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.inline-assign button:last-child {
+  background: #333;
+  color: #aaa;
+}
+
+.inline-assign button:disabled {
+  opacity: 0.5;
+}
+
 /* Export View */
 .export-view {
   padding: 20px;
