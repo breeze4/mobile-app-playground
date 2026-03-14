@@ -1,0 +1,17 @@
+# Pool-to-model mapping for ralph loops.
+# Each agent pool maps to a model identifier used by the claude CLI.
+# Override with --model flag on ralph-once.sh or ralph.sh.
+
+pools:
+  general:
+    model: "claude-sonnet-4-20250514"
+    description: "General-purpose tasks: research, planning, reporting"
+  test-author:
+    model: "claude-sonnet-4-20250514"
+    description: "Test design, implementation, and verification"
+  code-author:
+    model: "claude-sonnet-4-20250514"
+    description: "Code implementation and verification"
+
+# Default model when pool is not found or not specified
+default_model: "claude-sonnet-4-20250514"
