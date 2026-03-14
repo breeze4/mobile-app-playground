@@ -10,7 +10,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "seed": "tsx server/seed.ts"
+    "seed": "tsx server/seed.ts",
+    "mock": "tsx server/mock-data.ts"
   },
   "dependencies": {
     "better-sqlite3": "^12.8.0",
