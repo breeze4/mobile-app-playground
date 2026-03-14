@@ -1,0 +1,34 @@
+version: "1"
+kind: slice-catalog
+generated_at: "2026-03-13T12:00:00Z"
+slices:
+  - name: "hello-ui"
+    type: vertical
+    description: "Main activity with Compose-based hello world screen"
+    prd_references:
+      - "Goal: building a very lightweight orchestration layer for a mobile app migration project"
+  - name: "video-player"
+    type: vertical
+    description: "Video player overlay with Media3 integration"
+    prd_references:
+      - "Record e2e test runs and have screenshots"
+      - "Show the e2e trace as an expandable type thing with a timestamp taking you to that spot in the video"
+  - name: "map-ui"
+    type: vertical
+    description: "Base map UI with live marker rendering and interpolation"
+    prd_references:
+      - "Goal: drop-in replacement with full parity"
+  - name: "build-config"
+    type: horizontal
+    description: "Gradle build configuration, wrapper, and project settings"
+    prd_references:
+      - "Goal: building a very lightweight orchestration layer for a mobile app migration project"
+  - name: "compose-foundation"
+    type: horizontal
+    description: "Jetpack Compose theming, navigation, and shared UI components"
+    prd_references:
+      - "Goal: drop-in replacement with full parity"
+summary:
+  total_slices: 5
+  vertical: 3
+  horizontal: 2
