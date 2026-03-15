@@ -20,7 +20,9 @@ data class MainUiState(
     val entities: List<Entity> = emptyList(),
     val layers: List<Layer> = emptyList(),
     val visibleEntities: List<Entity> = emptyList(),
+    val filteredEntities: List<Entity> = emptyList(),
     val selectedEntity: Entity? = null,
+    val searchQuery: String = "",
 )
 
 class MainViewModel(
@@ -30,6 +32,7 @@ class MainViewModel(
 
     private val pollingEngine = PollingEngine(repository)
     private val _selectedEntity = MutableStateFlow<Entity?>(null)
+    private val _searchQuery = MutableStateFlow("")
 
     val player: ExoPlayer = ExoPlayer.Builder(application).build()
 
@@ -43,13 +46,26 @@ class MainViewModel(
         repository.entities,
         repository.layers,
         _selectedEntity,
-    ) { entities, layers, selected ->
+        _searchQuery,
+    ) { entities, layers, selected, query ->
         val visibleLayerIds = layers.filter { it.isVisible }.map { it.id }.toSet()
+        val visibleEntities = entities.filter { it.layerId in visibleLayerIds }
+        val filtered = if (query.isBlank()) {
+            visibleEntities
+        } else {
+            val lowerQuery = query.lowercase()
+            visibleEntities.filter {
+                it.name.lowercase().contains(lowerQuery) ||
+                    it.id.lowercase().contains(lowerQuery)
+            }
+        }
         MainUiState(
             entities = entities,
             layers = layers,
-            visibleEntities = entities.filter { it.layerId in visibleLayerIds },
+            visibleEntities = visibleEntities,
+            filteredEntities = filtered,
             selectedEntity = selected,
+            searchQuery = query,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MainUiState())
 
@@ -77,6 +93,10 @@ class MainViewModel(
     fun addLayer(layer: Layer) = repository.addLayer(layer)
 
     fun removeLayer(id: String) = repository.removeLayer(id)
+
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
 
     fun toggleLayerVisibility(layerId: String) {
         val current = uiState.value.layers.find { it.id == layerId } ?: return
