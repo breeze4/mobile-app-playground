@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playground.hello.data.model.Entity
 import com.playground.hello.data.model.Layer
+import com.playground.hello.data.mock.MockDataGenerator
+import com.playground.hello.data.mock.PollingEngine
 import com.playground.hello.data.repository.AppRepository
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -19,6 +21,17 @@ data class MainUiState(
 class MainViewModel(
     private val repository: AppRepository = AppRepository(),
 ) : ViewModel() {
+
+    private val pollingEngine = PollingEngine(repository)
+
+    init {
+        // Seed repository with mock data
+        MockDataGenerator.layers.forEach { repository.addLayer(it) }
+        MockDataGenerator.initialEntities.forEach { repository.addEntity(it) }
+
+        // Start polling — scoped to viewModelScope so it cancels on ViewModel clear
+        pollingEngine.start(viewModelScope)
+    }
 
     val uiState: StateFlow<MainUiState> = combine(
         repository.entities,
@@ -45,5 +58,10 @@ class MainViewModel(
     fun toggleLayerVisibility(layerId: String) {
         val current = uiState.value.layers.find { it.id == layerId } ?: return
         repository.setLayerVisibility(layerId, !current.isVisible)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        pollingEngine.stop()
     }
 }
