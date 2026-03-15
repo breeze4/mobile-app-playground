@@ -3,6 +3,7 @@ package com.playground.hello
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.playground.hello.ui.LayerFilterOverlay
 import com.playground.hello.ui.MainViewModel
 import com.playground.hello.ui.VideoPlayerSheet
 import com.playground.hello.ui.map.AnimatedEntityMarker
@@ -33,20 +35,27 @@ class MainActivity : ComponentActivity() {
                         position = CameraPosition.fromLatLngZoom(defaultPosition, 12f)
                     }
 
-                    GoogleMap(
-                        modifier = Modifier.fillMaxSize(),
-                        cameraPositionState = cameraPositionState,
-                        uiSettings = MapUiSettings(
-                            zoomControlsEnabled = true,
-                            compassEnabled = true,
-                        ),
-                    ) {
-                        uiState.visibleEntities.forEach { entity ->
-                            AnimatedEntityMarker(
-                                entity = entity,
-                                onMarkerClick = { viewModel.selectEntity(it) },
-                            )
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        GoogleMap(
+                            modifier = Modifier.fillMaxSize(),
+                            cameraPositionState = cameraPositionState,
+                            uiSettings = MapUiSettings(
+                                zoomControlsEnabled = true,
+                                compassEnabled = true,
+                            ),
+                        ) {
+                            uiState.visibleEntities.forEach { entity ->
+                                AnimatedEntityMarker(
+                                    entity = entity,
+                                    onMarkerClick = { viewModel.selectEntity(it) },
+                                )
+                            }
                         }
+
+                        LayerFilterOverlay(
+                            layers = uiState.layers,
+                            onToggleLayer = { viewModel.toggleLayerVisibility(it) },
+                        )
                     }
 
                     uiState.selectedEntity?.let { entity ->
