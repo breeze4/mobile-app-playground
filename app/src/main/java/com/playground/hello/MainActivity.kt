@@ -3,17 +3,18 @@ package com.playground.hello
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.rememberCameraPositionState
 import com.playground.hello.ui.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -25,12 +26,19 @@ class MainActivity : ComponentActivity() {
 
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Text(
-                            "Entities: ${uiState.entities.size} | Layers: ${uiState.layers.size}",
-                            fontSize = 24.sp,
-                        )
+                    val defaultPosition = LatLng(30.2672, -97.7431) // Austin, TX
+                    val cameraPositionState = rememberCameraPositionState {
+                        position = CameraPosition.fromLatLngZoom(defaultPosition, 12f)
                     }
+
+                    GoogleMap(
+                        modifier = Modifier.fillMaxSize(),
+                        cameraPositionState = cameraPositionState,
+                        uiSettings = MapUiSettings(
+                            zoomControlsEnabled = true,
+                            compassEnabled = true,
+                        ),
+                    )
                 }
             }
         }
