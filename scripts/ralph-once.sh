@@ -219,7 +219,10 @@ if [[ -n "$RESOLVED_MODEL" ]]; then
   CLAUDE_ARGS+=(--model "$RESOLVED_MODEL")
 fi
 
-if [[ "$PERMISSION_MODE" != "default" ]]; then
+if [[ "$PERMISSION_MODE" == "default" ]]; then
+  # Non-interactive invocation requires dangerously-skip-permissions
+  CLAUDE_ARGS+=(--dangerously-skip-permissions)
+else
   CLAUDE_ARGS+=(--permission-mode "$PERMISSION_MODE")
 fi
 
