@@ -3,9 +3,10 @@ set -euo pipefail
 
 # ralph-once.sh - Inner loop: pick one ready bead, do the work, close it.
 #
-# Queries bd ready, filters by slice and pool, picks the first match,
-# marks it in_progress, invokes claude with the bead description as prompt,
-# and closes the bead on success or records failure notes on failure.
+# Queries bd ready, filters by molecule and pool, picks the first match
+# (sorted by ID for determinism), marks it in_progress, invokes claude
+# with the bead description as prompt, and closes the bead on success
+# or records failure notes on failure.
 #
 # Exit codes:
 #   0   - Bead completed successfully
@@ -15,11 +16,10 @@ set -euo pipefail
 RALPH_DONE=42
 
 # Defaults
-SLICES=""
+MOLECULE=""
 POOL=""
 MODEL=""
 TIMEOUT=1800
-PERMISSION_MODE="default"
 ALLOWED_TOOLS=""
 STATE_DIR=".ralph/state"
 LOG_DIR=".ralph/logs"
@@ -34,11 +34,10 @@ Usage:
   scripts/ralph-once.sh [OPTIONS]
 
 Options:
-  --slices FILTER     Filter beads by slice name pattern (passed to bd ready)
+  --molecule ID       Filter beads by molecule (parent) ID
   --pool POOL         Filter beads by agent pool label
-  --model MODEL       Override model selection (e.g., claude-sonnet-4-20250514)
+  --model MODEL       Override model selection (e.g., claude-sonnet-4-6)
   --timeout SECONDS   Kill claude invocation after this many seconds (default: 1800)
-  --permission MODE   Claude permission mode (default: default)
   --tools TOOLS       Comma-separated allowed tools for claude
   --state-dir DIR     State directory (default: .ralph/state)
   --help              Show this help message
@@ -56,8 +55,8 @@ USAGE
 # --- Argument parsing ---
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --slices)
-      SLICES="$2"
+    --molecule)
+      MOLECULE="$2"
       shift 2
       ;;
     --pool)
@@ -70,10 +69,6 @@ while [[ $# -gt 0 ]]; do
       ;;
     --timeout)
       TIMEOUT="$2"
-      shift 2
-      ;;
-    --permission)
-      PERMISSION_MODE="$2"
       shift 2
       ;;
     --tools)
@@ -154,16 +149,17 @@ echo "Querying ready beads..."
 
 READY_JSON=$(bd ready --json 2>/dev/null || echo "[]")
 
-# Filter by pool and slices using python3
-BEAD_JSON=$(python3 -c "
-import json, sys
+# Filter by pool and molecule, sort by ID for deterministic selection
+BEAD_JSON=$(READY_RAW="$READY_JSON" FILTER_POOL="$POOL" FILTER_MOLECULE="$MOLECULE" python3 << 'PYEOF'
+import json, sys, os
 
-beads = json.loads('''$READY_JSON''')
+raw = os.environ["READY_RAW"]
+beads = json.loads(raw)
 if isinstance(beads, dict):
     beads = beads.get('issues', beads.get('beads', []))
 
-pool_filter = '$POOL'
-slice_filter = '$SLICES'
+pool_filter = os.environ.get("FILTER_POOL", "")
+molecule_filter = os.environ.get("FILTER_MOLECULE", "")
 
 filtered = []
 for b in beads:
@@ -173,10 +169,10 @@ for b in beads:
         if bead_pool != pool_filter:
             continue
 
-    # Filter by slice name pattern if specified
-    if slice_filter:
-        title = b.get('title', '')
-        if slice_filter.lower() not in title.lower():
+    # Filter by molecule (parent) ID if specified
+    if molecule_filter:
+        parent = b.get('parent_id', b.get('molecule_id', ''))
+        if parent != molecule_filter:
             continue
 
     filtered.append(b)
@@ -184,10 +180,12 @@ for b in beads:
 if not filtered:
     sys.exit(1)
 
-# Pick first ready bead
+# Sort by ID for deterministic selection
+filtered.sort(key=lambda b: b.get('id', ''))
 print(json.dumps(filtered[0]))
-" 2>/dev/null) || {
-  echo "No ready beads matching filters (pool=$POOL, slices=$SLICES)"
+PYEOF
+) || {
+  echo "No ready beads matching filters (pool=$POOL, molecule=$MOLECULE)"
   exit $RALPH_DONE
 }
 
@@ -212,18 +210,11 @@ fi
 RESOLVED_MODEL=$(resolve_model "$BEAD_POOL")
 echo "Model: ${RESOLVED_MODEL:-default}"
 
-# Build claude invocation
-CLAUDE_ARGS=()
+# Build claude invocation — always skip permissions (non-interactive)
+CLAUDE_ARGS=(--dangerously-skip-permissions)
 
 if [[ -n "$RESOLVED_MODEL" ]]; then
   CLAUDE_ARGS+=(--model "$RESOLVED_MODEL")
-fi
-
-if [[ "$PERMISSION_MODE" == "default" ]]; then
-  # Non-interactive invocation requires dangerously-skip-permissions
-  CLAUDE_ARGS+=(--dangerously-skip-permissions)
-else
-  CLAUDE_ARGS+=(--permission-mode "$PERMISSION_MODE")
 fi
 
 if [[ -n "$ALLOWED_TOOLS" ]]; then
@@ -268,6 +259,19 @@ if [[ $CLAUDE_EXIT -eq 0 ]]; then
   echo ""
   echo "Bead $BEAD_ID completed successfully."
   reset_failure_count
+
+  # Safety net: verify bead was actually closed by Claude.
+  # If Claude exited 0 but didn't run bd-done.sh, close it here.
+  if [[ "${RALPH_DRY_RUN:-}" != "1" ]]; then
+    BEAD_STATUS=$(bd show "$BEAD_ID" --json 2>/dev/null \
+      | python3 -c "import sys,json; print(json.load(sys.stdin).get('status', 'unknown'))" 2>/dev/null \
+      || echo "unknown")
+    if [[ "$BEAD_STATUS" != "closed" ]]; then
+      echo "WARNING: Bead $BEAD_ID not closed by Claude. Closing now."
+      scripts/bd-done.sh "$BEAD_ID" -r "Closed by ralph (Claude did not close)"
+    fi
+  fi
+
   exit 0
 elif [[ $CLAUDE_EXIT -eq 124 ]]; then
   echo ""

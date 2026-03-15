@@ -88,43 +88,43 @@ Prints all `bd mol pour` and `bd dep add` commands without executing.
 
 ## Bead Naming
 
-Molecules get IDs via `--ref` on pour if supported, otherwise the script maintains a mapping file (`tools/bead-scaffolder/id-map.yaml`) from `slice-name/step` → bead ID for use by other tools.
+Molecules get IDs via `--ref` on pour if supported, otherwise the script maintains a mapping file (`.ralph/state/id-mapping.json`) from `slice-name/step` → bead ID for use by other tools.
 
 ## Implementation Checklist
 
 ### Phase 1: Formula creation
-- [ ] Create `.beads/formulas/` directory
-- [ ] Write `mol-slice-pipeline.formula.json` with 8 steps, variables, and sequential deps
-- [ ] Tag steps with `agent_pool` labels (test-author, code-author, general)
-- [ ] `bd cook mol-slice-pipeline --dry-run` — verify template structure
-- [ ] `bd mol pour mol-slice-pipeline --dry-run --var slice_name=test-slice` — verify instantiation
-- [ ] Verify: pour one real molecule, confirm 8 child beads with correct sequential deps
+- [x] Create `.beads/formulas/` directory
+- [x] Write `mol-slice-pipeline.formula.json` with 8 steps, variables, and sequential deps
+- [x] Tag steps with `agent_pool` labels (test-author, code-author, general)
+- [x] `bd cook mol-slice-pipeline --dry-run` — verify template structure
+- [x] `bd mol pour mol-slice-pipeline --dry-run --var slice_name=test-slice` — verify instantiation
+- [x] Verify: pour one real molecule, confirm 8 child beads with correct sequential deps
 
 ### Phase 2: Scaffolding script
-- [ ] Script that parses slice YAML and pours one molecule per slice
-- [ ] Capture and store bead ID mapping (slice/step → bead ID)
-- [ ] Topological sort with cycle detection on the slice DAG
-- [ ] Add cross-slice deps after all molecules are poured
-- [ ] Dry-run mode
-- [ ] Verify: run against sample YAML with 3-4 slices and a simple DAG, confirm structure via `bd graph`
+- [x] Script that parses slice YAML and pours one molecule per slice
+- [x] Capture and store bead ID mapping (slice/step → bead ID)
+- [x] Topological sort with cycle detection on the slice DAG
+- [x] Add cross-slice deps after all molecules are poured
+- [x] Dry-run mode
+- [x] Verify: run against sample YAML with 3-4 slices and a simple DAG, confirm structure via `bd graph`
 
 ### Phase 3: Idempotency
-- [ ] Detect already-poured slices (check for existing molecules by name/label)
-- [ ] Skip already-created molecules, only pour missing ones
-- [ ] Option to tear down a single slice's molecule for re-scaffolding
-- [ ] Verify: run twice, confirm no duplicates
+- [x] Detect already-poured slices (check for existing molecules by name/label)
+- [x] Skip already-created molecules, only pour missing ones
+- [x] Option to tear down a single slice's molecule for re-scaffolding
+- [x] Verify: run twice, confirm no duplicates
 
 ### Phase 4: Swarm setup
-- [ ] Create top-level epic that parents all slice molecules
-- [ ] Create swarm from that epic for coordinated execution
-- [ ] Verify: `bd swarm status` shows correct structure
+- [x] Create top-level epic that parents all slice molecules
+- [x] Create swarm from that epic for coordinated execution
+- [x] Verify: `bd swarm status` shows correct structure
 
 ### Phase 5: Summary and validation
-- [ ] Print creation summary: slices poured, beads total, deps added
-- [ ] Print critical path through the DAG
-- [ ] Validate all cross-slice deps are correct via `bd dep tree`
-- [ ] Export ID mapping file for use by other tools (e2e harness, reporting, loop builder)
-- [ ] Verify: summary matches `bd stats`
+- [x] Print creation summary: slices poured, beads total, deps added
+- [x] Print critical path through the DAG
+- [x] Validate all cross-slice deps are correct via `bd dep tree`
+- [x] Export ID mapping file for use by other tools (e2e harness, reporting, loop builder)
+- [x] Verify: summary matches `bd stats`
 
 ## Out of Scope
 - Modifying slice definitions — that's the Slice Planner's job

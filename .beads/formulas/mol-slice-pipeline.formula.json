@@ -61,7 +61,7 @@
       "index": 4,
       "name": "test-verify",
       "title": "{{slice_name}}: Test Verify",
-      "description_template": "Run Maestro flows for {{slice_name}} against existing app. Debug failures, retry up to 3 times. Capture video and screenshots to e2e/output/{{slice_name}}/.",
+      "description_template": "Run Maestro flows for {{slice_name}} against existing app. Debug failures, retry up to 2 times. Capture video and screenshots to e2e/output/{{slice_name}}/.",
       "agent_pool": "test-author",
       "depends_on": [3]
     },

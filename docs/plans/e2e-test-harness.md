@@ -46,10 +46,9 @@ e2e/
     env.new.yaml    # APP_ID for new app
   output/
     {slice-name}/
-      {timestamp}/
-        videos/
-        screenshots/
-        results.json
+      videos/
+      screenshots/
+      results.yaml
 ```
 
 ### Flow template
@@ -147,33 +146,33 @@ After the 2-slice experiment, assign models to step types for the full run. Docu
 ## Implementation Checklist
 
 ### Phase 1: Maestro setup
-- [ ] Install Maestro CLI, verify it runs on the playground Android app via emulator
-- [ ] Create `e2e/` directory structure (flows, config, output)
-- [ ] Write one manual sample flow against the playground app to validate the setup
-- [ ] Verify: `maestro test` and `maestro record` both work, artifacts land in output dir
+- [x] Install Maestro CLI, verify it runs on the playground Android app via emulator
+- [x] Create `e2e/` directory structure (flows, config, output)
+- [x] Write one manual sample flow against the playground app to validate the setup
+- [x] Verify: `maestro test` and `maestro record` both work, artifacts land in output dir
 
 ### Phase 2: Test skills
-- [ ] Create `test-design` skill with instructions for producing GWT YAML from slice context
-- [ ] Create `test-implement` skill with Maestro YAML generation instructions and conventions
-- [ ] Create `test-verify` skill with run/debug/retry loop instructions
-- [ ] Verify: run all three skills manually on one slice of the playground app
+- [x] Create `test-design` skill with instructions for producing GWT YAML from slice context
+- [x] Create `test-implement` skill with Maestro YAML generation instructions and conventions
+- [x] Create `test-verify` skill with run/debug/retry loop instructions
+- [x] Verify: run all three skills manually on one slice of the playground app
 
 ### Phase 3: Parity comparison workflow
-- [ ] Script that runs the same Maestro flow suite against two different APP_IDs
-- [ ] Diff report: which flows pass on old app vs new app, side-by-side
-- [ ] Verify: intentionally break a feature in the new app, confirm diff report catches it
+- [x] Script that runs the same Maestro flow suite against two different APP_IDs
+- [x] Diff report: which flows pass on old app vs new app, side-by-side
+- [x] Verify: intentionally break a feature in the new app, confirm diff report catches it
 
 ### Phase 4: Model experiment
-- [ ] Pick 2 slices (1 vertical, 1 horizontal) from the playground app
-- [ ] Run experiment matrix (Claude vs Codex swapped across test/code steps)
-- [ ] Document results and assign models to step types
-- [ ] Update bead scaffolder to tag beads with assigned model/agent type
+- [x] Pick 2 slices (1 vertical, 1 horizontal) from the playground app
+- [x] Run experiment matrix (Claude vs Codex swapped across test/code steps)
+- [x] Document results and assign models to step types
+- [x] Update bead scaffolder to tag beads with assigned model/agent type
 
 ### Phase 5: Integration with bead pipeline
-- [ ] Update bead scaffolder to create 8 steps instead of 6
-- [ ] Test artifacts (videos, screenshots, results) stored in standard location per slice
-- [ ] Bead notes updated with test results summary on completion of test-verify and verify steps
-- [ ] Verify: full pipeline run on one playground slice, all 8 beads created and closeable
+- [x] Update bead scaffolder to create 8 steps instead of 6
+- [x] Test artifacts (videos, screenshots, results) stored in standard location per slice
+- [x] Bead notes updated with test results summary on completion of test-verify and verify steps
+- [x] Verify: full pipeline run on one playground slice, all 8 beads created and closeable
 
 ## Out of Scope
 - Real device testing — simulator only for now

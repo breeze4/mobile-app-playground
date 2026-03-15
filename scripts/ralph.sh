@@ -10,12 +10,11 @@ RALPH_DONE=42
 
 # Defaults
 ITERATIONS=10
-SLICES=""
+MOLECULE=""
 POOL=""
 MODEL=""
 TIMEOUT=1800
 MAX_FAILURES=3
-PERMISSION_MODE="default"
 ALLOWED_TOOLS=""
 STATE_DIR=".ralph/state"
 LOG_DIR=".ralph/logs"
@@ -33,12 +32,11 @@ Usage:
 
 Options:
   --iterations N      Max iterations to run (default: 10)
-  --slices FILTER     Filter beads by slice name pattern
+  --molecule ID       Filter beads by molecule (parent) ID
   --pool POOL         Filter beads by agent pool label
   --model MODEL       Override model selection
   --timeout SECONDS   Per-bead timeout in seconds (default: 1800)
   --max-failures N    Stop after N consecutive failures (default: 3)
-  --permission MODE   Claude permission mode (default: default)
   --tools TOOLS       Comma-separated allowed tools for claude
   --state-dir DIR     State directory (default: .ralph/state)
   --help              Show this help message
@@ -61,8 +59,8 @@ while [[ $# -gt 0 ]]; do
       ITERATIONS="$2"
       shift 2
       ;;
-    --slices)
-      SLICES="$2"
+    --molecule)
+      MOLECULE="$2"
       shift 2
       ;;
     --pool)
@@ -79,10 +77,6 @@ while [[ $# -gt 0 ]]; do
       ;;
     --max-failures)
       MAX_FAILURES="$2"
-      shift 2
-      ;;
-    --permission)
-      PERMISSION_MODE="$2"
       shift 2
       ;;
     --tools)
@@ -115,7 +109,7 @@ echo "0" > "$CONSECUTIVE_FAILURES_FILE"
 echo "=== Ralph Outer Loop ==="
 echo "Iterations: $ITERATIONS"
 echo "Pool: ${POOL:-any}"
-echo "Slices: ${SLICES:-any}"
+echo "Molecule: ${MOLECULE:-any}"
 echo "Timeout: ${TIMEOUT}s per bead"
 echo "Max failures: $MAX_FAILURES"
 echo ""
@@ -155,7 +149,7 @@ echo ""
   echo "Started: $(date -Iseconds)"
   echo "Iterations: $ITERATIONS"
   echo "Pool: ${POOL:-any}"
-  echo "Slices: ${SLICES:-any}"
+  echo "Molecule: ${MOLECULE:-any}"
   echo ""
 } >> "$OUTER_LOG"
 
@@ -178,11 +172,10 @@ for i in $(seq 1 "$ITERATIONS"); do
 
   # Build inner loop args
   INNER_ARGS=()
-  [[ -n "$SLICES" ]] && INNER_ARGS+=(--slices "$SLICES")
+  [[ -n "$MOLECULE" ]] && INNER_ARGS+=(--molecule "$MOLECULE")
   [[ -n "$POOL" ]] && INNER_ARGS+=(--pool "$POOL")
   [[ -n "$MODEL" ]] && INNER_ARGS+=(--model "$MODEL")
   [[ -n "$TIMEOUT" ]] && INNER_ARGS+=(--timeout "$TIMEOUT")
-  [[ "$PERMISSION_MODE" != "default" ]] && INNER_ARGS+=(--permission "$PERMISSION_MODE")
   [[ -n "$ALLOWED_TOOLS" ]] && INNER_ARGS+=(--tools "$ALLOWED_TOOLS")
   INNER_ARGS+=(--state-dir "$STATE_DIR")
 

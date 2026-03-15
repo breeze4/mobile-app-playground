@@ -51,14 +51,14 @@ There may be a small offset between Maestro's step timestamps and the video star
 reports/
   {slice-name}/
     report.json          # structured report data
-    old-app/
+    old_app/
       {flow-name}/
         video.mp4
         results.json     # maestro output with step timings
         screenshots/
           step-001.png
           step-002.png
-    new-app/
+    new_app/
       {flow-name}/
         video.mp4
         results.json
@@ -85,44 +85,44 @@ The Slice Planner backend serves these from a configurable `reports/` directory.
 ## Implementation Checklist
 
 ### Phase 1: Report data model and API
-- [ ] Define `report.json` schema (slice metadata, test cases, results, artifact paths, step timings)
-- [ ] Add API endpoints to Slice Planner backend: list reports, get report for slice
-- [ ] Serve artifact files (videos, screenshots) from the reports directory
-- [ ] Verify: create a sample `report.json` manually, confirm API returns it
+- [x] Define `report.json` schema (slice metadata, test cases, results, artifact paths, step timings)
+- [x] Add API endpoints to Slice Planner backend: list reports, get report for slice
+- [x] Serve artifact files (videos, screenshots) from the reports directory
+- [x] Verify: create a sample `report.json` manually, confirm API returns it
 
 ### Phase 2: Reports list view
-- [ ] Add Reports nav item to Slice Planner app
-- [ ] Slice list with report status (complete, pending, no report)
-- [ ] Filter by status, slice type
-- [ ] Verify: navigate to reports view, see slice list with correct statuses
+- [x] Add Reports nav item to Slice Planner app
+- [x] Slice list with report status (complete, pending, no report)
+- [x] Filter by status, slice type
+- [x] Verify: navigate to reports view, see slice list with correct statuses
 
 ### Phase 3: Slice report page
-- [ ] Header with slice metadata
-- [ ] File list section
-- [ ] Test cases section (GWT formatted)
-- [ ] Test results table (flow name, old app pass/fail, new app pass/fail)
-- [ ] Verify: render a complete report page from sample data
+- [x] Header with slice metadata
+- [x] File list section
+- [x] Test cases section (GWT formatted)
+- [x] Test results table (flow name, old app pass/fail, new app pass/fail)
+- [x] Verify: render a complete report page from sample data
 
 ### Phase 4: Video player with interactive trace
-- [ ] Embedded HTML5 video player component
-- [ ] Parse Maestro results JSON for step names and timestamps
-- [ ] Render clickable step list alongside video
-- [ ] Click step → seek video to timestamp (with offset calibration)
-- [ ] Highlight currently playing step based on video playback position
-- [ ] Verify: play a recorded Maestro test, click through steps, confirm seeking works
+- [x] Embedded HTML5 video player component
+- [x] Parse Maestro results JSON for step names and timestamps
+- [x] Render clickable step list alongside video
+- [x] Click step → seek video to timestamp (with offset calibration)
+- [x] Highlight currently playing step based on video playback position
+- [x] Verify: play a recorded Maestro test, click through steps, confirm seeking works
 
 ### Phase 5: Screenshots gallery
-- [ ] Grid/list of screenshots per flow, labeled by step
-- [ ] Click to expand full-size
-- [ ] Side-by-side old app vs new app screenshot comparison (same step)
-- [ ] Verify: view screenshots from a test run, compare old vs new
+- [x] Grid/list of screenshots per flow, labeled by step
+- [x] Click to expand full-size
+- [x] Side-by-side old app vs new app screenshot comparison (same step)
+- [x] Verify: view screenshots from a test run, compare old vs new
 
 ### Phase 6: Report generation skill
-- [ ] Create `slice-report` skill for the report bead step
-- [ ] Skill collects artifacts from test-verify and verify output dirs
-- [ ] Generates `report.json` with all required fields
-- [ ] Copies/links artifacts into `reports/{slice-name}/` structure
-- [ ] Verify: run skill on a completed slice, confirm report renders in the app
+- [x] Create `slice-report` skill for the report bead step
+- [x] Skill collects artifacts from test-verify and verify output dirs
+- [x] Generates `report.json` with all required fields
+- [x] Copies/links artifacts into `reports/{slice-name}/` structure
+- [x] Verify: run skill on a completed slice, confirm report renders in the app
 
 ## Out of Scope
 - Roll-up dashboard across all slices (bead progress tracked in bdui)

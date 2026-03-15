@@ -46,3 +46,4 @@ Git + Beads Integration:
 	- Commit message includes bead title and ID (Closes: <bead-id>)
 	- prepare-commit-msg hook adds agent identity trailers
 	- Agent prompt instructions must include: "commit changes then close the bead using scripts/bd-done.sh"
+	- No git push — single machine, single person project. All work stays local.

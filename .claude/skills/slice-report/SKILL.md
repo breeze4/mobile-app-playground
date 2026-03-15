@@ -12,8 +12,8 @@ Use this skill at the final step (step 8: report) of the slice pipeline, after t
 
 - Accept a slice name as input (e.g., `hello-ui`)
 - Look for test output in the following locations (relative to project root):
-  - `test-output/{slice-name}/old_app/` — test results from the old app
-  - `test-output/{slice-name}/new_app/` — test results from the new app
+  - `e2e/output/{slice-name}/old_app/` — test results from the old app
+  - `e2e/output/{slice-name}/new_app/` — test results from the new app
   - Each flow directory contains: `recording.mp4`, screenshots (`*.png`), and `results.json`
 - Look for the slice definition in `docs/slices/` YAML files or in the Slice Planner database
 
