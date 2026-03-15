@@ -1,0 +1,5 @@
+# Pool-to-model mapping
+# Determined by experimentation (see docs/e2e-experiment/)
+test-author: claude    # Model for test design, implement, verify steps
+code-author: claude    # Model for implement, verify steps
+general: claude        # Model for research, plan, report steps
