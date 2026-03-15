@@ -1,0 +1,111 @@
+{
+  "slice_name": "hello-ui",
+  "slice_type": "vertical",
+  "description": "Hello World UI screen with greeting message and basic navigation",
+  "files": [
+    "app/src/main/java/com/playground/hello/HelloActivity.kt",
+    "app/src/main/java/com/playground/hello/HelloViewModel.kt",
+    "app/src/main/res/layout/activity_hello.xml",
+    "app/src/main/res/values/strings_hello.xml"
+  ],
+  "test_cases": [
+    {
+      "name": "Display greeting message",
+      "given": "The user has launched the app",
+      "when": "The Hello screen is displayed",
+      "then": "The greeting message 'Hello, World!' is visible",
+      "assertions": [
+        "Greeting text view is visible",
+        "Greeting text matches expected string",
+        "Screen title shows 'Hello'"
+      ]
+    },
+    {
+      "name": "Navigate to settings",
+      "given": "The user is on the Hello screen",
+      "when": "The user taps the settings icon",
+      "then": "The Settings screen is displayed",
+      "assertions": [
+        "Settings activity is launched",
+        "Back navigation returns to Hello screen"
+      ]
+    },
+    {
+      "name": "Handle empty name",
+      "given": "The user has not entered a name",
+      "when": "The Hello screen renders",
+      "then": "A default greeting is shown",
+      "assertions": [
+        "Default greeting text is 'Hello, World!'",
+        "Name input field is empty"
+      ]
+    }
+  ],
+  "test_results": [
+    {
+      "flow_name": "display-greeting",
+      "old_app": { "passed": true, "duration_ms": 3200 },
+      "new_app": { "passed": true, "duration_ms": 2800 }
+    },
+    {
+      "flow_name": "navigate-to-settings",
+      "old_app": { "passed": true, "duration_ms": 4100 },
+      "new_app": { "passed": false, "duration_ms": 5200 }
+    },
+    {
+      "flow_name": "handle-empty-name",
+      "old_app": { "passed": true, "duration_ms": 2500 },
+      "new_app": { "passed": true, "duration_ms": 2300 }
+    }
+  ],
+  "artifacts": {
+    "old_app": {
+      "display-greeting": {
+        "video": "old_app/display-greeting/recording.mp4",
+        "screenshots": [
+          "old_app/display-greeting/step-1-launch.png",
+          "old_app/display-greeting/step-2-greeting.png"
+        ],
+        "results": "old_app/display-greeting/results.json"
+      },
+      "navigate-to-settings": {
+        "video": "old_app/navigate-to-settings/recording.mp4",
+        "screenshots": [
+          "old_app/navigate-to-settings/step-1-hello.png",
+          "old_app/navigate-to-settings/step-2-tap-settings.png",
+          "old_app/navigate-to-settings/step-3-settings-screen.png"
+        ],
+        "results": "old_app/navigate-to-settings/results.json"
+      }
+    },
+    "new_app": {
+      "display-greeting": {
+        "video": "new_app/display-greeting/recording.mp4",
+        "screenshots": [
+          "new_app/display-greeting/step-1-launch.png",
+          "new_app/display-greeting/step-2-greeting.png"
+        ],
+        "results": "new_app/display-greeting/results.json"
+      },
+      "navigate-to-settings": {
+        "video": "new_app/navigate-to-settings/recording.mp4",
+        "screenshots": [
+          "new_app/navigate-to-settings/step-1-hello.png",
+          "new_app/navigate-to-settings/step-2-tap-settings.png",
+          "new_app/navigate-to-settings/step-3-settings-screen.png"
+        ],
+        "results": "new_app/navigate-to-settings/results.json"
+      }
+    }
+  },
+  "step_timings": [
+    { "step": "Launch app", "start_seconds": 0.0, "duration_seconds": 2.5 },
+    { "step": "Wait for greeting", "start_seconds": 2.5, "duration_seconds": 1.0 },
+    { "step": "Verify greeting text", "start_seconds": 3.5, "duration_seconds": 0.5 },
+    { "step": "Tap settings icon", "start_seconds": 4.0, "duration_seconds": 0.8 },
+    { "step": "Wait for settings screen", "start_seconds": 4.8, "duration_seconds": 1.5 },
+    { "step": "Verify settings loaded", "start_seconds": 6.3, "duration_seconds": 0.7 }
+  ],
+  "video_offset_seconds": 0.5,
+  "generated_at": "2026-03-14T10:30:00Z"
+}

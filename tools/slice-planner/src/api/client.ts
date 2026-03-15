@@ -146,3 +146,70 @@ export async function fetchLowConfidenceFiles(threshold?: number): Promise<LowCo
   const res = await fetch(`${BASE}/files/low-confidence${params}`);
   return res.json();
 }
+
+// Reports
+
+export interface ReportListItem {
+  slice_name: string;
+  status: 'complete' | 'pending';
+  slice_type?: 'vertical' | 'horizontal';
+  description?: string;
+  generated_at?: string;
+}
+
+export interface TestCase {
+  name: string;
+  given: string;
+  when: string;
+  then: string;
+  assertions: string[];
+}
+
+export interface TestResult {
+  flow_name: string;
+  old_app: { passed: boolean; duration_ms: number };
+  new_app: { passed: boolean; duration_ms: number };
+}
+
+export interface FlowArtifacts {
+  video: string;
+  screenshots: string[];
+  results: string;
+}
+
+export interface StepTiming {
+  step: string;
+  start_seconds: number;
+  duration_seconds: number;
+}
+
+export interface SliceReport {
+  slice_name: string;
+  slice_type: 'vertical' | 'horizontal';
+  description: string;
+  files: string[];
+  test_cases: TestCase[];
+  test_results: TestResult[];
+  artifacts: {
+    old_app: Record<string, FlowArtifacts>;
+    new_app: Record<string, FlowArtifacts>;
+  };
+  step_timings: StepTiming[];
+  video_offset_seconds: number;
+  generated_at: string;
+}
+
+export async function fetchReports(): Promise<ReportListItem[]> {
+  const res = await fetch(`${BASE}/reports`);
+  return res.json();
+}
+
+export async function fetchReport(sliceName: string): Promise<SliceReport> {
+  const res = await fetch(`${BASE}/reports/${encodeURIComponent(sliceName)}`);
+  if (!res.ok) throw new Error(`Report not found: ${sliceName}`);
+  return res.json();
+}
+
+export function reportArtifactUrl(sliceName: string, artifactPath: string): string {
+  return `${BASE}/reports/${encodeURIComponent(sliceName)}/artifacts/${artifactPath}`;
+}

@@ -872,3 +872,521 @@
 }
 .bulk-assign-form button:hover { background: #3a5a9f; }
 .bulk-assign-form button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Reports View */
+.reports-view {
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.reports-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.reports-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.reports-filters {
+  display: flex;
+  gap: 12px;
+}
+
+.reports-loading, .reports-empty {
+  color: #666;
+  font-style: italic;
+  padding: 20px 0;
+}
+
+.reports-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.report-card {
+  background: #16213e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.report-card.report-status-complete:hover {
+  border-color: #1e40af;
+}
+
+.report-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.report-card-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.report-card-desc {
+  color: #888;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.report-card-date {
+  color: #666;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.report-status-badge {
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.report-status-badge.status-complete {
+  background: #14532d;
+  color: #86efac;
+}
+
+.report-status-badge.status-pending {
+  background: #713f12;
+  color: #fde68a;
+}
+
+/* Report Page */
+.report-page {
+  padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.report-back-btn {
+  background: #1f2b47;
+  color: #aaa;
+  border: 1px solid #333;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.report-back-btn:hover {
+  background: #2a3a5a;
+  color: #e0e0e0;
+}
+
+.report-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.report-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.report-description {
+  color: #aaa;
+  font-size: 0.9rem;
+  margin: 0 0 4px 0;
+}
+
+.report-meta {
+  color: #666;
+  font-size: 0.8rem;
+  margin-bottom: 20px;
+}
+
+.report-error {
+  color: #ef4444;
+  padding: 20px;
+}
+
+.report-section {
+  margin-bottom: 28px;
+}
+
+.report-section h3 {
+  font-size: 0.95rem;
+  color: #aaa;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #333;
+  padding-bottom: 6px;
+}
+
+.report-file-list {
+  background: #16213e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.report-file-item {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #2a2a3e;
+  font-family: monospace;
+}
+
+.report-file-item:last-child {
+  border-bottom: none;
+}
+
+/* Test case card */
+.test-case-card {
+  background: #16213e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.test-case-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.gwt-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gwt-row {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.gwt-label {
+  font-weight: 600;
+  color: #93c5fd;
+  display: inline-block;
+  width: 50px;
+}
+
+.test-assertions {
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+.assertions-label {
+  color: #888;
+  font-weight: 500;
+}
+
+.test-assertions ul {
+  margin: 4px 0 0 0;
+  padding-left: 20px;
+  color: #bbb;
+}
+
+.test-assertions li {
+  margin-bottom: 2px;
+}
+
+/* Results table */
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #16213e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.85rem;
+}
+
+.results-table th {
+  padding: 8px 14px;
+  text-align: left;
+  color: #888;
+  font-weight: 500;
+  border-bottom: 1px solid #333;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.results-table td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #2a2a3e;
+}
+
+.results-table tr:last-child td {
+  border-bottom: none;
+}
+
+.result-pass {
+  color: #86efac;
+  font-weight: 600;
+}
+
+.result-fail {
+  color: #fca5a5;
+  font-weight: 600;
+}
+
+.result-duration {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+/* Video player */
+.flow-videos {
+  margin-bottom: 20px;
+}
+
+.flow-name {
+  font-size: 0.9rem;
+  color: #93c5fd;
+  margin: 0 0 8px 0;
+}
+
+.video-comparison {
+  display: flex;
+  gap: 16px;
+}
+
+.video-side {
+  flex: 1;
+  min-width: 0;
+}
+
+.video-side-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 6px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.video-player {
+  background: #16213e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.video-element {
+  width: 100%;
+  display: block;
+  background: #000;
+}
+
+.video-unavailable {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  background: #16213e;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.step-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #2a2a3e;
+  color: #ccc;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.step-item:hover {
+  background: #1f2b47;
+}
+
+.step-item.step-active {
+  background: #1e3a5f;
+  color: #fff;
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+.step-time {
+  color: #888;
+  min-width: 36px;
+  font-family: monospace;
+}
+
+.step-name {
+  flex: 1;
+}
+
+.step-duration {
+  color: #666;
+  font-size: 0.75rem;
+}
+
+/* Screenshots gallery */
+.screenshots-gallery {
+  margin-bottom: 20px;
+}
+
+.gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.screenshot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.screenshot-item {
+  background: #16213e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.screenshot-thumb {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  object-fit: contain;
+  background: #000;
+}
+
+.screenshot-thumb:hover {
+  opacity: 0.85;
+}
+
+.screenshot-label {
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.screenshot-app-badge {
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-old {
+  background: #1e3a5f;
+  color: #93c5fd;
+}
+
+.badge-new {
+  background: #14532d;
+  color: #86efac;
+}
+
+.screenshot-missing {
+  padding: 30px 10px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+/* Comparison mode */
+.comparison-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comparison-row {
+  display: flex;
+  gap: 12px;
+}
+
+.comparison-cell {
+  flex: 1;
+  background: #16213e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.comparison-label {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  color: #888;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-bottom: 1px solid #333;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.lightbox-close {
+  background: #333;
+  color: #e0e0e0;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.lightbox-close:hover {
+  background: #555;
+}
