@@ -256,9 +256,10 @@ CLAUDE_EXIT=0
 if [[ "${RALPH_DRY_RUN:-}" == "1" ]]; then
   echo "[DRY-RUN] timeout $TIMEOUT claude ${CLAUDE_ARGS[*]} -p \"$PROMPT\""
 else
-  echo "Starting claude invocation..."
+  echo "Starting invocation..."
+  CLAUDE_ARGS+=(--print)
   timeout "$TIMEOUT" claude "${CLAUDE_ARGS[@]}" -p "$PROMPT" \
-    2>&1 | tee "$LOG_FILE" || CLAUDE_EXIT=$?
+    > >(tee "$LOG_FILE") 2>&1 || CLAUDE_EXIT=$?
 fi
 
 # Handle result
