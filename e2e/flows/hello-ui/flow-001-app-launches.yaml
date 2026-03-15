@@ -1,0 +1,9 @@
+appId: ${APP_ID}
+---
+# hello-ui: app-launches
+# Given: app is installed
+# When: user opens the app
+# Then: main screen is visible
+- launchApp
+- assertVisible: "Hello"
+- takeScreenshot: "hello-ui-app-launches-final"

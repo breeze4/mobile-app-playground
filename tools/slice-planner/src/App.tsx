@@ -3,9 +3,10 @@ import PackageView from './components/PackageView'
 import SliceView from './components/SliceView'
 import CoverageDashboard from './components/CoverageDashboard'
 import ExportView from './components/ExportView'
+import ReportsView from './components/ReportsView'
 import './App.css'
 
-type Tab = 'packages' | 'slices' | 'coverage' | 'export';
+type Tab = 'packages' | 'slices' | 'coverage' | 'export' | 'reports';
 
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('packages');
@@ -20,6 +21,7 @@ function App() {
             ['slices', 'Slices'],
             ['coverage', 'Coverage'],
             ['export', 'Export'],
+            ['reports', 'Reports'],
           ] as [Tab, string][]).map(([key, label]) => (
             <button
               key={key}
@@ -35,6 +37,7 @@ function App() {
       {activeTab === 'slices' && <SliceView />}
       {activeTab === 'coverage' && <CoverageDashboard />}
       {activeTab === 'export' && <ExportView />}
+      {activeTab === 'reports' && <ReportsView />}
     </div>
   )
 }
