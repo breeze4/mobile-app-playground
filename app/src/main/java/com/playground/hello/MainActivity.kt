@@ -16,6 +16,7 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.playground.hello.ui.MainViewModel
+import com.playground.hello.ui.map.AnimatedEntityMarker
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,11 @@ class MainActivity : ComponentActivity() {
                             zoomControlsEnabled = true,
                             compassEnabled = true,
                         ),
-                    )
+                    ) {
+                        uiState.visibleEntities.forEach { entity ->
+                            AnimatedEntityMarker(entity = entity)
+                        }
+                    }
                 }
             }
         }
