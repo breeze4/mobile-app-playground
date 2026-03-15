@@ -27,7 +27,7 @@ private fun markerHueForLayer(layerId: String): Float = when (layerId) {
  * the 2-second polling interval) so movement appears continuous.
  */
 @Composable
-fun AnimatedEntityMarker(entity: Entity) {
+fun AnimatedEntityMarker(entity: Entity, onMarkerClick: (Entity) -> Unit = {}) {
     val markerState = rememberMarkerState(
         key = entity.id,
         position = LatLng(entity.lat, entity.lng),
@@ -62,5 +62,9 @@ fun AnimatedEntityMarker(entity: Entity) {
         title = entity.name,
         snippet = entity.id,
         icon = icon,
+        onClick = {
+            onMarkerClick(entity)
+            true
+        },
     )
 }

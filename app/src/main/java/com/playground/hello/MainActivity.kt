@@ -16,6 +16,7 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.playground.hello.ui.MainViewModel
+import com.playground.hello.ui.VideoPlayerSheet
 import com.playground.hello.ui.map.AnimatedEntityMarker
 
 class MainActivity : ComponentActivity() {
@@ -41,8 +42,19 @@ class MainActivity : ComponentActivity() {
                         ),
                     ) {
                         uiState.visibleEntities.forEach { entity ->
-                            AnimatedEntityMarker(entity = entity)
+                            AnimatedEntityMarker(
+                                entity = entity,
+                                onMarkerClick = { viewModel.selectEntity(it) },
+                            )
                         }
+                    }
+
+                    uiState.selectedEntity?.let { entity ->
+                        VideoPlayerSheet(
+                            entity = entity,
+                            player = viewModel.player,
+                            onDismiss = { viewModel.clearSelection() },
+                        )
                     }
                 }
             }
