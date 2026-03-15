@@ -1,215 +1,285 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ralph-once: Run one iteration of the Ralph loop.
-# Picks the highest-priority ready bead, sends it to an AI agent, and
-# closes it on success or re-opens it on failure.
+# ralph-once.sh - Inner loop: pick one ready bead, do the work, close it.
 #
-# Usage: ralph-once.sh [--slices "s1,s2"] [--pool POOL] [--model MODEL]
+# Queries bd ready, filters by slice and pool, picks the first match,
+# marks it in_progress, invokes claude with the bead description as prompt,
+# and closes the bead on success or records failure notes on failure.
+#
+# Exit codes:
+#   0   - Bead completed successfully
+#   1   - Bead failed (claude error or non-zero exit)
+#   42  - No ready beads in scope (RALPH_DONE)
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-RALPH_DIR="$REPO_ROOT/.ralph"
-MODELS_YAML="$RALPH_DIR/models.yaml"
+RALPH_DONE=42
 
-# --- Defaults ---
+# Defaults
 SLICES=""
 POOL=""
 MODEL=""
+TIMEOUT=1800
+PERMISSION_MODE="default"
+ALLOWED_TOOLS=""
+STATE_DIR=".ralph/state"
+LOG_DIR=".ralph/logs"
+MODELS_CONFIG=".ralph/models.yaml"
+CONSECUTIVE_FAILURES_FILE="$STATE_DIR/consecutive-failures"
 
-# --- Help ---
 usage() {
   cat <<'USAGE'
-ralph-once — pick and execute the next ready bead
+ralph-once.sh - Pick one ready bead and execute it.
 
 Usage:
-  ralph-once.sh [--slices "s1,s2"] [--pool POOL] [--model MODEL]
+  scripts/ralph-once.sh [OPTIONS]
 
 Options:
-  --slices CSV   Comma-separated slice names to filter on (matched against
-                 parent molecule name)
-  --pool POOL    Agent pool label to filter on (e.g. test-author, code-author,
-                 general). Matched against the bead's agent_pool label.
-  --model MODEL  Override the AI model (claude or codex). When omitted, the
-                 model is looked up from .ralph/models.yaml by pool, defaulting
-                 to claude.
-  --help         Show this help message
+  --slices FILTER     Filter beads by slice name pattern (passed to bd ready)
+  --pool POOL         Filter beads by agent pool label
+  --model MODEL       Override model selection (e.g., claude-sonnet-4-20250514)
+  --timeout SECONDS   Kill claude invocation after this many seconds (default: 1800)
+  --permission MODE   Claude permission mode (default: default)
+  --tools TOOLS       Comma-separated allowed tools for claude
+  --state-dir DIR     State directory (default: .ralph/state)
+  --help              Show this help message
 
-Exit behaviour:
-  Prints "RALPH_DONE" and exits 0 when no ready beads remain in scope.
+Exit codes:
+  0   - Bead completed successfully
+  1   - Bead failed
+  42  - No ready beads in scope (RALPH_DONE)
+
+Environment:
+  RALPH_DRY_RUN=1    Print what would be done without executing
 USAGE
-  exit 0
 }
 
-# --- Arg parsing ---
+# --- Argument parsing ---
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --slices)  SLICES="$2";  shift 2 ;;
-    --pool)    POOL="$2";    shift 2 ;;
-    --model)   MODEL="$2";   shift 2 ;;
-    --help|-h) usage ;;
+    --slices)
+      SLICES="$2"
+      shift 2
+      ;;
+    --pool)
+      POOL="$2"
+      shift 2
+      ;;
+    --model)
+      MODEL="$2"
+      shift 2
+      ;;
+    --timeout)
+      TIMEOUT="$2"
+      shift 2
+      ;;
+    --permission)
+      PERMISSION_MODE="$2"
+      shift 2
+      ;;
+    --tools)
+      ALLOWED_TOOLS="$2"
+      shift 2
+      ;;
+    --state-dir)
+      STATE_DIR="$2"
+      CONSECUTIVE_FAILURES_FILE="$STATE_DIR/consecutive-failures"
+      shift 2
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
     *)
-      echo "Error: unknown argument: $1" >&2
-      echo "Run with --help for usage." >&2
+      echo "Error: unknown option '$1'" >&2
+      usage >&2
       exit 1
       ;;
   esac
 done
 
-# --- Helper: look up model from models.yaml ---
+mkdir -p "$STATE_DIR" "$LOG_DIR"
+
+# --- Resolve model from pool config ---
 resolve_model() {
   local pool="$1"
-  # Explicit --model wins
+
+  # Explicit --model flag takes precedence
   if [[ -n "$MODEL" ]]; then
     echo "$MODEL"
     return
   fi
-  # Try to look up by pool in models.yaml
-  if [[ -n "$pool" && -f "$MODELS_YAML" ]]; then
-    local mapped
-    # Simple YAML parse: find "pool: value" lines, strip comments
-    mapped=$(grep -E "^${pool}:" "$MODELS_YAML" 2>/dev/null \
-      | head -1 \
-      | sed 's/^[^:]*:[[:space:]]*//' \
-      | sed 's/[[:space:]]*#.*//' \
-      | tr -d '[:space:]')
-    if [[ -n "$mapped" ]]; then
-      echo "$mapped"
+
+  # Look up pool in models.yaml
+  if [[ -f "$MODELS_CONFIG" && -n "$pool" ]]; then
+    local model_from_config
+    model_from_config=$(python3 -c "
+import yaml, sys
+with open('$MODELS_CONFIG') as f:
+    config = yaml.safe_load(f)
+pools = config.get('pools', {})
+pool_config = pools.get('$pool', {})
+print(pool_config.get('model', config.get('default_model', '')))
+" 2>/dev/null || echo "")
+    if [[ -n "$model_from_config" ]]; then
+      echo "$model_from_config"
       return
     fi
   fi
-  # Default
-  echo "claude"
+
+  # Fallback: no model override (use claude default)
+  echo ""
 }
 
-# --- 1. Query ready beads, apply filters, pick first match ---
-BD_ARGS=(ready --json --limit 50)
-if [[ -n "$POOL" ]]; then
-  BD_ARGS+=(--label "agent_pool:$POOL")
-fi
-
-READY_JSON=$(bd "${BD_ARGS[@]}" 2>/dev/null) || {
-  echo "Error: bd ready failed" >&2
-  exit 1
+# --- Track consecutive failures ---
+read_failure_count() {
+  if [[ -f "$CONSECUTIVE_FAILURES_FILE" ]]; then
+    cat "$CONSECUTIVE_FAILURES_FILE"
+  else
+    echo "0"
+  fi
 }
 
-# Filter by --slices (if set) and pick the first matching bead.
-# Outputs "id\ntitle" on success, exits non-zero if nothing matches.
-PICKED=$(echo "$READY_JSON" | SLICES="$SLICES" python3 -c "
-import sys, json, os
+increment_failure_count() {
+  local count
+  count=$(read_failure_count)
+  echo $((count + 1)) > "$CONSECUTIVE_FAILURES_FILE"
+}
 
-data = json.load(sys.stdin)
-if not isinstance(data, list) or not data:
+reset_failure_count() {
+  echo "0" > "$CONSECUTIVE_FAILURES_FILE"
+}
+
+# --- Query bd ready ---
+echo "Querying ready beads..."
+
+READY_JSON=$(bd ready --json 2>/dev/null || echo "[]")
+
+# Filter by pool and slices using python3
+BEAD_JSON=$(python3 -c "
+import json, sys
+
+beads = json.loads('''$READY_JSON''')
+if isinstance(beads, dict):
+    beads = beads.get('issues', beads.get('beads', []))
+
+pool_filter = '$POOL'
+slice_filter = '$SLICES'
+
+filtered = []
+for b in beads:
+    # Filter by pool if specified
+    if pool_filter:
+        bead_pool = b.get('agent_pool', b.get('labels', {}).get('agent_pool', ''))
+        if bead_pool != pool_filter:
+            continue
+
+    # Filter by slice name pattern if specified
+    if slice_filter:
+        title = b.get('title', '')
+        if slice_filter.lower() not in title.lower():
+            continue
+
+    filtered.append(b)
+
+if not filtered:
     sys.exit(1)
 
-slices_csv = os.environ.get('SLICES', '')
-slices = [s.strip().lower() for s in slices_csv.split(',') if s.strip()]
-
-for bead in data:
-    if slices:
-        bead_text = (bead.get('title', '') + ' ' + bead.get('parent_title', '')).lower()
-        if not any(s in bead_text for s in slices):
-            continue
-    print(bead['id'])
-    print(bead['title'])
-    sys.exit(0)
-
-sys.exit(1)
+# Pick first ready bead
+print(json.dumps(filtered[0]))
 " 2>/dev/null) || {
-  echo "RALPH_DONE"
-  exit 0
+  echo "No ready beads matching filters (pool=$POOL, slices=$SLICES)"
+  exit $RALPH_DONE
 }
 
-BEAD_ID=$(echo "$PICKED" | head -1)
-BEAD_TITLE=$(echo "$PICKED" | tail -1)
-
-echo ">>> Ralph picking bead: $BEAD_ID — $BEAD_TITLE"
-
-# --- 2. Claim the bead ---
-bd update "$BEAD_ID" --status=in_progress 2>/dev/null || true
-
-# --- 3. Read full bead details ---
-BEAD_DETAIL=$(bd show "$BEAD_ID" --json 2>/dev/null) || {
-  echo "Error: could not read bead $BEAD_ID" >&2
-  bd update "$BEAD_ID" --status=open 2>/dev/null || true
-  exit 1
-}
-
-# Extract description, labels, and agent_pool in one pass
-eval "$(echo "$BEAD_DETAIL" | python3 -c "
-import sys, json, shlex
-
-d = json.load(sys.stdin)
-desc = d.get('description', '(no description)')
-labels = d.get('labels', [])
-pool = ''
-for l in labels:
-    if l.startswith('agent_pool:'):
-        pool = l.split(':',1)[1]
-        break
-labels_str = ', '.join(labels) if labels else '(none)'
-
-print('BEAD_DESC=' + shlex.quote(desc))
-print('BEAD_LABELS=' + shlex.quote(labels_str))
-print('BEAD_POOL=' + shlex.quote(pool))
+read -r BEAD_ID BEAD_POOL <<< "$(echo "$BEAD_JSON" | python3 -c "
+import sys, json
+b = json.load(sys.stdin)
+pool = b.get('agent_pool', b.get('labels', {}).get('agent_pool', ''))
+print(b['id'], pool)
 ")"
+BEAD_TITLE=$(echo "$BEAD_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('title', 'unknown'))")
+BEAD_DESC=$(echo "$BEAD_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin).get('description', ''))")
 
-# --- 4. Resolve model ---
+echo "Selected bead: $BEAD_ID - $BEAD_TITLE"
+echo "Pool: $BEAD_POOL"
+
+# Mark bead as in_progress
+if [[ "${RALPH_DRY_RUN:-}" != "1" ]]; then
+  bd update "$BEAD_ID" --status=in_progress 2>/dev/null || true
+fi
+
+# Resolve model
 RESOLVED_MODEL=$(resolve_model "$BEAD_POOL")
-echo ">>> Using model: $RESOLVED_MODEL"
+echo "Model: ${RESOLVED_MODEL:-default}"
 
-# --- 5. Construct prompt ---
-PROMPT="You are working on a mobile app migration project.
+# Build claude invocation
+CLAUDE_ARGS=()
 
-## Your Task
+if [[ -n "$RESOLVED_MODEL" ]]; then
+  CLAUDE_ARGS+=(--model "$RESOLVED_MODEL")
+fi
 
-$BEAD_TITLE
+if [[ "$PERMISSION_MODE" != "default" ]]; then
+  CLAUDE_ARGS+=(--permission-mode "$PERMISSION_MODE")
+fi
 
-## Instructions
+if [[ -n "$ALLOWED_TOOLS" ]]; then
+  IFS=',' read -ra TOOLS <<< "$ALLOWED_TOOLS"
+  for tool in "${TOOLS[@]}"; do
+    CLAUDE_ARGS+=(--allowedTools "$tool")
+  done
+fi
 
+# Build prompt from bead description
+PROMPT="You are working on bead $BEAD_ID: $BEAD_TITLE
+
+Instructions:
 $BEAD_DESC
 
-## Context
+When you are done, commit your changes and close the bead using:
+  scripts/bd-done.sh $BEAD_ID -r \"<summary of what you did>\"
 
-- Bead ID: $BEAD_ID
-- Labels: $BEAD_LABELS
+If you cannot complete the task, explain why in detail."
 
-## Rules
+# Log file for this invocation
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+LOG_FILE="$LOG_DIR/ralph-once-$BEAD_ID-$TIMESTAMP.log"
 
-- Read the instructions carefully — they contain everything you need
-- Commit your work with a descriptive message
-- When done, output RALPH_STEP_DONE
-- If you are blocked or stuck, output RALPH_BLOCKED with a reason"
+echo "Log: $LOG_FILE"
+echo "Timeout: ${TIMEOUT}s"
 
-# --- 6. Invoke the agent ---
-AGENT_EXIT=0
-if [[ "$RESOLVED_MODEL" == "codex" ]]; then
-  echo ">>> Invoking codex agent..."
-  codex --print -p "$PROMPT" || AGENT_EXIT=$?
+# Execute claude with timeout
+CLAUDE_EXIT=0
+if [[ "${RALPH_DRY_RUN:-}" == "1" ]]; then
+  echo "[DRY-RUN] timeout $TIMEOUT claude ${CLAUDE_ARGS[*]} -p \"$PROMPT\""
 else
-  echo ">>> Invoking claude agent..."
-  claude --print -p "$PROMPT" \
-    --allowedTools "Read,Write,Edit,Bash,Glob,Grep" \
-    || AGENT_EXIT=$?
+  echo "Starting claude invocation..."
+  timeout "$TIMEOUT" claude "${CLAUDE_ARGS[@]}" -p "$PROMPT" \
+    2>&1 | tee "$LOG_FILE" || CLAUDE_EXIT=$?
 fi
 
-# --- 7. Handle result ---
-if [[ "$AGENT_EXIT" -eq 0 ]]; then
-  echo ">>> Bead $BEAD_ID succeeded. Closing."
-  bd close "$BEAD_ID" --reason="completed by ralph" --suggest-next 2>/dev/null || true
+# Handle result
+if [[ $CLAUDE_EXIT -eq 0 ]]; then
+  echo ""
+  echo "Bead $BEAD_ID completed successfully."
+  reset_failure_count
+  exit 0
+elif [[ $CLAUDE_EXIT -eq 124 ]]; then
+  echo ""
+  echo "ERROR: Bead $BEAD_ID timed out after ${TIMEOUT}s."
+  increment_failure_count
+  if [[ "${RALPH_DRY_RUN:-}" != "1" ]]; then
+    bd update "$BEAD_ID" --status=open 2>/dev/null || true
+    bd comment "$BEAD_ID" --body="Ralph timeout after ${TIMEOUT}s" 2>/dev/null || true
+  fi
+  exit 1
 else
-  echo ">>> Bead $BEAD_ID failed (exit $AGENT_EXIT). Reopening."
-  bd update "$BEAD_ID" \
-    --status=open \
-    --append-notes "ralph failed: agent exited with code $AGENT_EXIT" \
-    2>/dev/null || true
-fi
-
-# --- 8. Commit any uncommitted changes ---
-if [[ -n $(git -C "$REPO_ROOT" status --porcelain 2>/dev/null) ]]; then
-  echo ">>> Committing leftover changes..."
-  git -C "$REPO_ROOT" add -A
-  git -C "$REPO_ROOT" commit -m "$BEAD_TITLE
-
-Bead: $BEAD_ID" || true
+  echo ""
+  echo "ERROR: Bead $BEAD_ID failed (exit code: $CLAUDE_EXIT)."
+  increment_failure_count
+  if [[ "${RALPH_DRY_RUN:-}" != "1" ]]; then
+    bd update "$BEAD_ID" --status=open 2>/dev/null || true
+    bd comment "$BEAD_ID" --body="Ralph failure (exit $CLAUDE_EXIT). See log: $LOG_FILE" 2>/dev/null || true
+  fi
+  exit 1
 fi

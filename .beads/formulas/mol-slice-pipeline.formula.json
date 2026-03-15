@@ -1,91 +1,93 @@
 {
   "name": "mol-slice-pipeline",
-  "type": "workflow",
-  "description": "8-step pipeline for implementing a single slice: research through report",
-  "phase": "liquid",
-  "variables": {
-    "slice_name": {
-      "description": "Kebab-case name of the slice",
+  "description": "8-step pipeline for migrating a single slice: research, plan, test-design, test-implement, test-verify, implement, verify, report.",
+  "variables": [
+    {
+      "name": "slice_name",
+      "description": "Name of the slice being processed",
       "required": true
     },
-    "slice_type": {
-      "description": "Slice type: vertical or horizontal",
+    {
+      "name": "slice_type",
+      "description": "Type of slice: vertical or horizontal",
       "required": true
     },
-    "slice_description": {
-      "description": "Short description of what the slice covers",
+    {
+      "name": "slice_files",
+      "description": "Comma-separated list of files in this slice",
       "required": true
     },
-    "slice_files": {
-      "description": "Comma-separated list of file paths assigned to this slice",
+    {
+      "name": "slice_description",
+      "description": "Human-readable description of the slice",
       "required": false,
       "default": ""
     }
-  },
+  ],
   "steps": [
     {
-      "id": "research",
-      "title": "Research: {{slice_name}}",
-      "description": "Research the codebase and requirements for {{slice_name}} ({{slice_type}}). {{slice_description}}. Files: {{slice_files}}",
-      "type": "task",
+      "index": 0,
+      "name": "research",
+      "title": "{{slice_name}}: Research",
+      "description_template": "Analyze existing code for slice {{slice_name}} ({{slice_type}}). Files: {{slice_files}}. Understand current behavior, edge cases, dependencies. Document findings.",
       "agent_pool": "general",
       "depends_on": []
     },
     {
-      "id": "plan",
-      "title": "Plan: {{slice_name}}",
-      "description": "Create implementation plan for {{slice_name}}. Define approach, risks, and acceptance criteria.",
-      "type": "task",
+      "index": 1,
+      "name": "plan",
+      "title": "{{slice_name}}: Plan",
+      "description_template": "Create implementation plan for {{slice_name}}. Reference research findings. Define approach for porting/building this {{slice_type}} slice. List files to create/modify: {{slice_files}}.",
       "agent_pool": "general",
-      "depends_on": ["research"]
+      "depends_on": [0]
     },
     {
-      "id": "test-design",
-      "title": "Test Design: {{slice_name}}",
-      "description": "Design test cases for {{slice_name}}. Cover edge cases and integration points.",
-      "type": "task",
+      "index": 2,
+      "name": "test-design",
+      "title": "{{slice_name}}: Test Design",
+      "description_template": "Design behavioral test cases for {{slice_name}}. Produce given/when/then YAML. Cover happy paths, edge cases, error states. Slice description: {{slice_description}}. Files: {{slice_files}}.",
       "agent_pool": "test-author",
-      "depends_on": ["plan"]
+      "depends_on": [1]
     },
     {
-      "id": "test-implement",
-      "title": "Test Implement: {{slice_name}}",
-      "description": "Implement test cases for {{slice_name}} as designed in the test-design step.",
-      "type": "task",
+      "index": 3,
+      "name": "test-implement",
+      "title": "{{slice_name}}: Test Implement",
+      "description_template": "Translate test designs into Maestro YAML flows for {{slice_name}}. Write to e2e/flows/{{slice_name}}/. Follow Maestro conventions. Include screenshots at assertion points.",
       "agent_pool": "test-author",
-      "depends_on": ["test-design"]
+      "depends_on": [2]
     },
     {
-      "id": "test-verify",
-      "title": "Test Verify: {{slice_name}}",
-      "description": "Verify test scaffolding compiles and tests fail as expected (red phase).",
-      "type": "task",
+      "index": 4,
+      "name": "test-verify",
+      "title": "{{slice_name}}: Test Verify",
+      "description_template": "Run Maestro flows for {{slice_name}} against existing app. Debug failures, retry up to 3 times. Capture video and screenshots to e2e/output/{{slice_name}}/.",
       "agent_pool": "test-author",
-      "depends_on": ["test-implement"]
+      "depends_on": [3]
     },
     {
-      "id": "implement",
-      "title": "Implement: {{slice_name}}",
-      "description": "Implement {{slice_name}} to make all tests pass. Files: {{slice_files}}",
-      "type": "task",
+      "index": 5,
+      "name": "implement",
+      "title": "{{slice_name}}: Implement",
+      "description_template": "Implement {{slice_name}} ({{slice_type}}) in the new app. Files: {{slice_files}}. Follow the plan. Code must pass the test flows from test-implement step.",
       "agent_pool": "code-author",
-      "depends_on": ["test-verify"]
+      "depends_on": [4]
     },
     {
-      "id": "verify",
-      "title": "Verify: {{slice_name}}",
-      "description": "Verify implementation of {{slice_name}}. All tests pass, no regressions, code quality checks.",
-      "type": "task",
+      "index": 6,
+      "name": "verify",
+      "title": "{{slice_name}}: Verify",
+      "description_template": "Run Maestro flows for {{slice_name}} against new app. Compare results with old app. Debug and fix any failures. Ensure parity.",
       "agent_pool": "code-author",
-      "depends_on": ["implement"]
+      "depends_on": [5]
     },
     {
-      "id": "report",
-      "title": "Report: {{slice_name}}",
-      "description": "Write completion report for {{slice_name}}. Summarize changes, test results, and any follow-up items.",
-      "type": "task",
+      "index": 7,
+      "name": "report",
+      "title": "{{slice_name}}: Report",
+      "description_template": "Generate report for {{slice_name}}. Collect artifacts from test-verify and verify steps. Build report.json. Copy artifacts to reports/{{slice_name}}/.",
       "agent_pool": "general",
-      "depends_on": ["verify"]
+      "depends_on": [6]
     }
   ]
 }

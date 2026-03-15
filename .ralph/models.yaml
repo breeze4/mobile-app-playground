@@ -1,5 +1,17 @@
-# Pool-to-model mapping
-# Determined by experimentation (see docs/e2e-experiment/)
-test-author: claude    # Model for test design, implement, verify steps
-code-author: claude    # Model for implement, verify steps
-general: claude        # Model for research, plan, report steps
+# Pool-to-model mapping for ralph loops.
+# Each agent pool maps to a model identifier used by the claude CLI.
+# Override with --model flag on ralph-once.sh or ralph.sh.
+
+pools:
+  general:
+    model: "claude-sonnet-4-20250514"
+    description: "General-purpose tasks: research, planning, reporting"
+  test-author:
+    model: "claude-sonnet-4-20250514"
+    description: "Test design, implementation, and verification"
+  code-author:
+    model: "claude-sonnet-4-20250514"
+    description: "Code implementation and verification"
+
+# Default model when pool is not found or not specified
+default_model: "claude-sonnet-4-20250514"
