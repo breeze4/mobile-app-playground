@@ -1,0 +1,91 @@
+{
+  "name": "mol-slice-pipeline",
+  "type": "workflow",
+  "description": "8-step pipeline for implementing a single slice: research through report",
+  "phase": "liquid",
+  "variables": {
+    "slice_name": {
+      "description": "Kebab-case name of the slice",
+      "required": true
+    },
+    "slice_type": {
+      "description": "Slice type: vertical or horizontal",
+      "required": true
+    },
+    "slice_description": {
+      "description": "Short description of what the slice covers",
+      "required": true
+    },
+    "slice_files": {
+      "description": "Comma-separated list of file paths assigned to this slice",
+      "required": false,
+      "default": ""
+    }
+  },
+  "steps": [
+    {
+      "id": "research",
+      "title": "Research: {{slice_name}}",
+      "description": "Research the codebase and requirements for {{slice_name}} ({{slice_type}}). {{slice_description}}. Files: {{slice_files}}",
+      "type": "task",
+      "agent_pool": "general",
+      "depends_on": []
+    },
+    {
+      "id": "plan",
+      "title": "Plan: {{slice_name}}",
+      "description": "Create implementation plan for {{slice_name}}. Define approach, risks, and acceptance criteria.",
+      "type": "task",
+      "agent_pool": "general",
+      "depends_on": ["research"]
+    },
+    {
+      "id": "test-design",
+      "title": "Test Design: {{slice_name}}",
+      "description": "Design test cases for {{slice_name}}. Cover edge cases and integration points.",
+      "type": "task",
+      "agent_pool": "test-author",
+      "depends_on": ["plan"]
+    },
+    {
+      "id": "test-implement",
+      "title": "Test Implement: {{slice_name}}",
+      "description": "Implement test cases for {{slice_name}} as designed in the test-design step.",
+      "type": "task",
+      "agent_pool": "test-author",
+      "depends_on": ["test-design"]
+    },
+    {
+      "id": "test-verify",
+      "title": "Test Verify: {{slice_name}}",
+      "description": "Verify test scaffolding compiles and tests fail as expected (red phase).",
+      "type": "task",
+      "agent_pool": "test-author",
+      "depends_on": ["test-implement"]
+    },
+    {
+      "id": "implement",
+      "title": "Implement: {{slice_name}}",
+      "description": "Implement {{slice_name}} to make all tests pass. Files: {{slice_files}}",
+      "type": "task",
+      "agent_pool": "code-author",
+      "depends_on": ["test-verify"]
+    },
+    {
+      "id": "verify",
+      "title": "Verify: {{slice_name}}",
+      "description": "Verify implementation of {{slice_name}}. All tests pass, no regressions, code quality checks.",
+      "type": "task",
+      "agent_pool": "code-author",
+      "depends_on": ["implement"]
+    },
+    {
+      "id": "report",
+      "title": "Report: {{slice_name}}",
+      "description": "Write completion report for {{slice_name}}. Summarize changes, test results, and any follow-up items.",
+      "type": "task",
+      "agent_pool": "general",
+      "depends_on": ["verify"]
+    }
+  ]
+}
