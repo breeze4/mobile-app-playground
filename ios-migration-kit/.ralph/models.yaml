@@ -1,0 +1,17 @@
+# Pool-to-model mapping for iOS migration ralph loops.
+# Each agent pool maps to a model identifier used by the claude CLI.
+# Override with --model flag on ralph-once.sh or ralph.sh.
+
+pools:
+  general:
+    model: "claude-sonnet-4-6"
+    description: "Spec extraction and triage"
+  test-author:
+    model: "claude-sonnet-4-6"
+    description: "XCUITest writing and verification"
+  code-author:
+    model: "claude-opus-4-6"
+    description: "Module implementation"
+
+# Default model when pool is not found or not specified
+default_model: "claude-sonnet-4-6"

@@ -1,0 +1,75 @@
+# Add these sections to your iOS project's CLAUDE.md or .claude/CLAUDE.md
+# Replace all {PLACEHOLDER} values with your project's actual values.
+
+## Issue Tracking
+
+Use `bd` (beads) for all issue tracking. Dependencies and parallelism are tracked natively:
+- `bd ready` shows unblocked issues available to work on
+- `bd dep add X Y` to declare Y blocks X
+- `bd close <id>` to mark work done
+- Always use `--json` flag when parsing output programmatically
+
+## Migration Skills
+
+The following skills are available for migration work:
+
+- **module-triage**: Inventory the project and produce _triage.yaml
+- **reference-packages**: Identify best existing packages as architecture blueprints
+- **spec-extract**: Study source + test files, produce spec with citations to original code
+- **spec-reconcile**: Cross-reference all specs, find gaps, reconcile triage
+- **migration-implement**: Implement a module using spec citations as guide
+- **xcuitest-verify**: Write and run XCUITest e2e tests from behavioral spec
+- **progress-report**: Migration progress dashboard — run each morning
+
+## Ralph Loops
+
+Autonomous execution via `scripts/ralph.sh`. Pools:
+- `general` — spec extraction (sonnet)
+- `code-author` — implementation (opus)
+- `test-author` — XCUITest writing (sonnet)
+
+When closing a bead, use: `scripts/bd-done.sh <bead-id> -r "summary"`
+
+## Project Layout
+
+- **`./SecuroNet/`** — Legacy UIKit MVC/Coordinator code. Do NOT replicate patterns from here.
+- **`./Packages/`** — New SwiftUI + MVVM Swift packages. All new code goes here.
+
+## Reference Packages
+
+When implementing a new module, study these packages FIRST to learn the project's architecture patterns. Read their Views, ViewModels, Services, and Tests before writing any code.
+
+- `Packages/{PACKAGE_1}` — {DESCRIPTION: e.g., "login flow — shows ViewModel + View + navigation pattern"}
+- `Packages/{PACKAGE_2}` — {DESCRIPTION: e.g., "dashboard — complex list with search/filter, data loading pattern"}
+- `Packages/{PACKAGE_3}` — {DESCRIPTION: e.g., "networking — horizontal, shows service protocol pattern"}
+
+These are the most architecturally representative packages in the project. Every new module should match their patterns for Views, ViewModels, dependency injection, navigation, and testing.
+
+## Specs Directory
+
+`specs/` contains module specifications with citations to source code.
+- Read specs before implementing — they provide high-level understanding
+- Follow `Source:` references to study original implementation details
+- Respect `## Misplaced Logic` — do NOT reimplement, consume as a dependency
+- Format: `specs/{group}/{module_name}.md`
+
+## Build & Test
+
+These are the exact commands for building and testing this project:
+
+```bash
+# Build (verify compilation)
+xcodebuild build -scheme {SCHEME} -destination 'generic/platform=iOS Simulator'
+
+# Unit tests
+xcodebuild test -scheme {SCHEME} -destination 'platform=iOS Simulator,name={SIMULATOR}'
+
+# UI tests (XCUITest)
+xcodebuild test -scheme {UI_TEST_SCHEME} -destination 'platform=iOS Simulator,name={SIMULATOR}'
+```
+
+- Scheme: `{SCHEME}`
+- UI Test Scheme: `{UI_TEST_SCHEME}`
+- Simulator: `{SIMULATOR}` (e.g., `iPhone 16`)
+- Unit test target: `{TEST_TARGET}`
+- UI test target: `{UI_TEST_TARGET}`

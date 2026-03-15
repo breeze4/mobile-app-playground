@@ -1,0 +1,116 @@
+# Module triage for iOS migration
+# Review each module and set status: done | partial | todo | manual
+# Then run scripts/scaffold.sh to create beads
+#
+# Status values:
+#   done    — fully migrated in target architecture, has tests
+#   partial — partially migrated, needs completion
+#   todo    — not started, still fully legacy
+#   manual  — requires manual/exceptional testing, excluded from automation
+#   unknown — not yet classified (scaffold.sh will skip these)
+#
+# Slice types:
+#   vertical   — user-facing feature (screens, flows, interactions)
+#   horizontal — shared infrastructure (networking, auth, persistence)
+#   Horizontals are migrated before verticals that depend on them.
+#
+# Legacy code: ./SecuroNet/ (UIKit MVC/Coordinator)
+# New code: ./Packages/ (SwiftUI + MVVM, Swift packages)
+#
+# NOTE: Legacy files have poor slice boundaries. A single SecuroNet file
+# may appear in multiple modules. That's expected — the legacy code mixes
+# concerns. Define modules by what the NEW architecture should look like,
+# not by how SecuroNet is organized.
+
+project:
+  name: SecuroNet
+  legacy_dir: SecuroNet
+  packages_dir: Packages
+  legacy_pattern: "UIKit MVC/Coordinator in ./SecuroNet/"
+  target_pattern: "SwiftUI + MVVM in ./Packages/"
+  test_target: SecuroNetTests
+  ui_test_target: SecuroNetUITests
+  scheme: SecuroNet
+
+modules:
+  # --- Horizontal slices (shared infrastructure, migrate first) ---
+
+  - name: networking
+    group: core
+    slice: horizontal
+    status: done
+    legacy_files:
+      - SecuroNet/Core/APIClient.swift
+      - SecuroNet/Core/RequestBuilder.swift
+    source_files:
+      - Packages/Networking/Sources/APIClient.swift
+      - Packages/Networking/Sources/Endpoint.swift
+    test_files:
+      - Packages/Networking/Tests/APIClientTests.swift
+    notes: "Fully migrated, protocol-based, 8 unit tests"
+
+  - name: auth-token
+    group: core
+    slice: horizontal
+    status: partial
+    legacy_files:
+      - SecuroNet/Core/TokenManager.swift
+      - SecuroNet/Core/KeychainWrapper.swift
+      - SecuroNet/Shared/SessionManager.swift  # auth token portion only
+    source_files:
+      - Packages/Auth/Sources/TokenStore.swift
+    test_files: []
+    notes: "TokenStore exists but still wraps legacy KeychainWrapper, no tests"
+
+  # --- Vertical slices (user-facing features) ---
+
+  - name: login
+    group: auth
+    slice: vertical
+    status: done
+    legacy_files:
+      - SecuroNet/Auth/LoginViewController.swift
+      - SecuroNet/Auth/LoginCoordinator.swift
+      - SecuroNet/Auth/LoginDataSource.swift
+    source_files:
+      - Packages/Auth/Sources/LoginView.swift
+      - Packages/Auth/Sources/LoginViewModel.swift
+    test_files:
+      - Packages/Auth/Tests/LoginViewModelTests.swift
+    notes: "Fully migrated to SwiftUI+MVVM, 12 unit tests, legacy files unused"
+
+  - name: camera-capture
+    group: camera
+    slice: vertical
+    status: partial
+    legacy_files:
+      - SecuroNet/Camera/CaptureViewController.swift
+      - SecuroNet/Camera/CaptureManager.swift
+      - SecuroNet/Camera/PhotoProcessor.swift
+    source_files:
+      - Packages/Camera/Sources/CaptureView.swift
+    test_files: []
+    notes: "SwiftUI view exists but still imports SecuroNet.CaptureManager, PhotoProcessor logic not ported"
+
+  - name: settings-export
+    group: settings
+    slice: vertical
+    status: todo
+    legacy_files:
+      - SecuroNet/Settings/ExportController.swift
+      - SecuroNet/Settings/ExportFormatter.swift
+      - SecuroNet/Settings/ExportOptionsView.swift
+    source_files: []
+    test_files: []
+    notes: "Pure UIKit, not started"
+
+  - name: onboarding-tour
+    group: onboarding
+    slice: vertical
+    status: manual
+    legacy_files:
+      - SecuroNet/Onboarding/TourViewController.swift
+      - SecuroNet/Onboarding/TourAnimations.swift
+    source_files: []
+    test_files: []
+    notes: "Complex animation sequences, exclude from automation"

@@ -1,0 +1,69 @@
+{
+  "name": "mol-migration-module",
+  "description": "3-step pipeline for migrating a single module: spec-extract, implement, test-verify.",
+  "variables": [
+    {
+      "name": "module_name",
+      "description": "Name of the module being processed (kebab-case)",
+      "required": true
+    },
+    {
+      "name": "module_group",
+      "description": "Group/directory for the module (e.g., auth, camera, settings)",
+      "required": true
+    },
+    {
+      "name": "module_status",
+      "description": "Migration status: todo or partial",
+      "required": true
+    },
+    {
+      "name": "slice_type",
+      "description": "Slice type: vertical (user-facing feature) or horizontal (shared infrastructure)",
+      "required": true
+    },
+    {
+      "name": "legacy_files",
+      "description": "Comma-separated list of legacy source files for this module",
+      "required": true
+    },
+    {
+      "name": "source_files",
+      "description": "Comma-separated list of already-migrated source files (empty if todo)",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "test_files",
+      "description": "Comma-separated list of existing test files",
+      "required": false,
+      "default": ""
+    }
+  ],
+  "steps": [
+    {
+      "index": 0,
+      "name": "spec-extract",
+      "title": "{{module_name}}: Spec Extract",
+      "description_template": "Study all source and test files for module {{module_name}} (group: {{module_group}}, slice: {{slice_type}}, status: {{module_status}}). Legacy files: {{legacy_files}}. Existing new files: {{source_files}}. Existing tests: {{test_files}}. Use the spec-extract skill. Output: specs/{{module_group}}/{{module_name}}.md",
+      "agent_pool": "general",
+      "depends_on": []
+    },
+    {
+      "index": 1,
+      "name": "implement",
+      "title": "{{module_name}}: Implement",
+      "description_template": "Implement module {{module_name}} ({{slice_type}}) in the target architecture. Read specs/{{module_group}}/{{module_name}}.md for behavior and functionality specs. Follow citations to study original implementation. Status: {{module_status}} — if partial, only build missing pieces. Use the migration-implement skill. Run unit tests (XCTest) after implementation.",
+      "agent_pool": "code-author",
+      "depends_on": [0]
+    },
+    {
+      "index": 2,
+      "name": "test-verify",
+      "title": "{{module_name}}: Test & Verify",
+      "description_template": "Write XCUITest for module {{module_name}} based on behavioral specs in specs/{{module_group}}/{{module_name}}.md. Run tests, debug failures (max 2 retries). Use the xcuitest-verify skill. Produce results to e2e/output/{{module_name}}/results.yaml.",
+      "agent_pool": "test-author",
+      "depends_on": [1]
+    }
+  ]
+}
