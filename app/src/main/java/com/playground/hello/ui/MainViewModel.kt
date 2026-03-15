@@ -27,9 +27,9 @@ data class MainUiState(
 
 class MainViewModel(
     application: Application,
-    private val repository: AppRepository = AppRepository(),
 ) : AndroidViewModel(application) {
 
+    private val repository: AppRepository = AppRepository()
     private val pollingEngine = PollingEngine(repository)
     private val _selectedEntity = MutableStateFlow<Entity?>(null)
     private val _searchQuery = MutableStateFlow("")
