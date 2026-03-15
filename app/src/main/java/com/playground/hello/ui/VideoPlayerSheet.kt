@@ -10,7 +10,10 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.exoplayer.ExoPlayer
@@ -42,13 +45,20 @@ fun VideoPlayerSheet(
             )
 
             if (entity.videoUri != null) {
+                val context = LocalContext.current
+                val playerView = remember {
+                    PlayerView(context).apply {
+                        useController = true
+                    }
+                }
+                DisposableEffect(player) {
+                    playerView.player = player
+                    onDispose {
+                        playerView.player = null
+                    }
+                }
                 AndroidView(
-                    factory = { context ->
-                        PlayerView(context).apply {
-                            this.player = player
-                            useController = true
-                        }
-                    },
+                    factory = { playerView },
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f),

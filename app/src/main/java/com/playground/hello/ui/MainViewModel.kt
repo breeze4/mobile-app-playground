@@ -59,22 +59,33 @@ class MainViewModel(
                     it.id.lowercase().contains(lowerQuery)
             }
         }
+        // Clear selection if the selected entity's layer was hidden
+        val effectiveSelected = selected?.takeIf { it.layerId in visibleLayerIds }
+        if (selected != null && effectiveSelected == null) {
+            _selectedEntity.value = null
+            player.stop()
+            player.clearMediaItems()
+        }
         MainUiState(
             entities = entities,
             layers = layers,
             visibleEntities = visibleEntities,
             filteredEntities = filtered,
-            selectedEntity = selected,
+            selectedEntity = effectiveSelected,
             searchQuery = query,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MainUiState())
 
     fun selectEntity(entity: Entity) {
+        if (_selectedEntity.value?.id == entity.id) return
         _selectedEntity.value = entity
         entity.videoUri?.let { uri ->
             player.setMediaItem(MediaItem.fromUri(uri))
             player.prepare()
             player.play()
+        } ?: run {
+            player.stop()
+            player.clearMediaItems()
         }
     }
 
@@ -99,7 +110,7 @@ class MainViewModel(
     }
 
     fun toggleLayerVisibility(layerId: String) {
-        val current = uiState.value.layers.find { it.id == layerId } ?: return
+        val current = repository.layers.value.find { it.id == layerId } ?: return
         repository.setLayerVisibility(layerId, !current.isVisible)
     }
 
