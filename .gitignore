@@ -16,6 +16,8 @@ app/build/
 # Dolt (added by bd init)
 .dolt/
 *.db
+*.db-shm
+*.db-wal
 dolt-server.*
 dolt/
 

@@ -4,14 +4,14 @@
 
 pools:
   general:
-    model: "claude-sonnet-4-20250514"
+    model: "claude-sonnet-4-6"
     description: "General-purpose tasks: research, planning, reporting"
   test-author:
-    model: "claude-sonnet-4-20250514"
+    model: "claude-sonnet-4-6"
     description: "Test design, implementation, and verification"
   code-author:
-    model: "claude-sonnet-4-20250514"
+    model: "claude-opus-4-6"
     description: "Code implementation and verification"
 
 # Default model when pool is not found or not specified
-default_model: "claude-sonnet-4-20250514"
+default_model: "claude-sonnet-4-6"
