@@ -42,7 +42,7 @@ fun LayerFilterOverlay(
         Column(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(16.dp),
+                .padding(top = 80.dp, end = 16.dp),
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {

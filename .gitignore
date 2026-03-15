@@ -25,6 +25,9 @@ dolt/
 node_modules/
 dist/
 
+# Secrets
+.env
+
 # OS
 .DS_Store
 Thumbs.db

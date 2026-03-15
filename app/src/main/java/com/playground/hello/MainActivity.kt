@@ -91,6 +91,7 @@ class MainActivity : ComponentActivity() {
                             onEntityTap = { entity ->
                                 showEntityList = false
                                 viewModel.setSearchQuery("")
+                                viewModel.selectEntity(entity)
                                 coroutineScope.launch {
                                     cameraPositionState.animate(
                                         CameraUpdateFactory.newLatLngZoom(
